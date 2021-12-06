@@ -2,18 +2,18 @@ import React from 'react';
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import { Places } from '@/store';
 import { useSelector } from 'react-redux';
+import { Place } from '@/store/types';
 
 const containerStyle = {
   width: '100%',
   height: '100%',
 };
 
-const center = {
-  lat: -3.745,
-  lng: -38.523,
-};
+interface MapsProps {
+  centerplace?: Place;
+}
 
-export const Maps = () => {
+export const Maps = ({ centerplace }: MapsProps) => {
   const [, setMap] = React.useState<google.maps.Map | null>(null);
   const places = useSelector(Places.selectPlaces);
 
@@ -30,7 +30,7 @@ export const Maps = () => {
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={center}
+      center={centerplace?.geo}
       zoom={10}
       onLoad={onLoad}
       onUnmount={onUnmount}
