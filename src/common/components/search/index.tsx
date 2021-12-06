@@ -5,7 +5,7 @@ import { Places, useAppDispatch } from '@/store';
 export const Search = () => {
   const searchBox = useRef<StandaloneSearchBox>(null);
   const dispatch = useAppDispatch();
-  const onPlacesChanged = (...props: any) => {
+  const onPlacesChanged = () => {
     const [place] = searchBox.current?.state.searchBox?.getPlaces() || [];
     console.log(place);
     if (place)

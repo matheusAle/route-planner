@@ -14,15 +14,16 @@ const center = {
 };
 
 export const Maps = () => {
-  const [map, setMap] = React.useState<google.maps.Map | null>(null);
+  const [, setMap] = React.useState<google.maps.Map | null>(null);
   const places = useSelector(Places.selectPlaces);
-  const onLoad = React.useCallback(map => {
+
+  const onLoad = React.useCallback(mapLoad => {
     const bounds = new window.google.maps.LatLngBounds();
-    map.fitBounds(bounds);
-    setMap(map);
+    mapLoad.fitBounds(bounds);
+    setMap(mapLoad);
   }, []);
 
-  const onUnmount = React.useCallback(function callback(map) {
+  const onUnmount = React.useCallback(() => {
     setMap(null);
   }, []);
 
