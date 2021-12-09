@@ -1,8 +1,9 @@
 import React from 'react';
-import { GoogleMap, Marker } from '@react-google-maps/api';
+import { GoogleMap, DirectionsRenderer, DirectionsService } from '@react-google-maps/api';
 import { Places } from '@/store';
 import { useSelector } from 'react-redux';
-import { Place } from '@/store/types';
+import { Place } from '../../api/types/place';
+import { useDirections } from './use-directions';
 
 const containerStyle = {
   width: '100%',
@@ -16,6 +17,7 @@ interface MapsProps {
 export const Maps = ({ centerplace }: MapsProps) => {
   const [, setMap] = React.useState<google.maps.Map | null>(null);
   const places = useSelector(Places.selectPlaces);
+  const {directions, setDirections, directionsRequest} = useDirections(places);
 
   const onLoad = React.useCallback(mapLoad => {
     const bounds = new window.google.maps.LatLngBounds();
@@ -36,9 +38,15 @@ export const Maps = ({ centerplace }: MapsProps) => {
       onUnmount={onUnmount}
       mapContainerClassName="h-full w-full"
     >
-      {places.map(mak => (
-        <Marker position={mak.geo} key={mak.id} />
-      ))}
+      <DirectionsService
+        options={directionsRequest}
+        callback={setDirections}
+      />
+      <DirectionsRenderer
+        options={{ 
+          directions
+        }}
+      />
       <></>
     </GoogleMap>
   );

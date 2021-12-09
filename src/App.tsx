@@ -4,11 +4,14 @@ import { Maps } from './common/components/maps';
 import { Search } from './common/components/search';
 import { VirtualList } from './common/components/virtual-list';
 import { Places } from './store';
-import { Place } from './store/types';
+import { Place } from './common/api/types/place';
+import { usePlacesMutation } from './common/hooks/use-places-mutation';
+import { PlaceCard } from './common/components/place-card';
 
 function App() {
   const places = useSelector(Places.selectPlaces);
   const [selectedPlace, setSelectedPlace] = useState<Place>();
+  const { updatePlace } = usePlacesMutation();
 
   return (
     <div className="grid grid-cols-shell h-screen">
@@ -16,19 +19,16 @@ function App() {
         <Search />
         <VirtualList
           data={places}
-          itemRender={({ item }) => {
-            return (
-              <div
-                onClick={() => setSelectedPlace(item)}
-                className="border border-solid  border-gray-200 rounded-md p-4 bg-white w-full h-full"
-              >
-                <p className="font-medium text-sm">{item.name}</p>
-                <p className="font-normal text-sm text-gray-500">
-                  {item.address}
-                </p>
-              </div>
-            );
+          sorted={(item, order) => {
+            updatePlace({ ...item, order})
           }}
+          itemRender={({ item }) => (
+            <PlaceCard 
+              place={item} 
+              key={item.id} 
+              onClick={() => setSelectedPlace(item)}
+            />
+          )}
         />
       </div>
       <Maps centerplace={selectedPlace} />

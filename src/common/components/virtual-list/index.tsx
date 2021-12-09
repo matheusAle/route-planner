@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { reorder } from './helpers';
+import React from 'react';
 import {
   DropResult,
   Droppable,
@@ -13,9 +12,11 @@ import {
 import 'react-virtualized/styles.css';
 import { WindowScroller, List } from 'react-virtualized';
 import ReactDOM from 'react-dom';
+import { getPositionForIndex } from './helpers';
 
 export interface ListRowItem {
   id: string;
+  order: number
 }
 
 export interface ListRowProps<T> {
@@ -27,28 +28,19 @@ export interface ListRowProps<T> {
 interface VirtualListProps<T> {
   data: T[];
   itemRender(props: ListRowProps<T>): React.ReactElement;
+  sorted?(item: T, order: number): void;
 }
 
 export const VirtualList = <T extends ListRowItem>({
   data,
   itemRender: ItemRender,
+  sorted = () => void 0
 }: VirtualListProps<T>) => {
-  const [items, setItems] = useState(() => data);
 
   function onDragEnd(result: DropResult) {
-    if (!result.destination) {
-      return;
-    }
-    if (result.source.index === result.destination.index) {
-      return;
-    }
-
-    const newQuotes = reorder(
-      items,
-      result.source.index,
-      result.destination.index,
-    );
-    setItems(newQuotes);
+    const orders = data.map(item => item.order);
+    const order = getPositionForIndex(orders, result.destination?.index || 0)
+    sorted(data[result.source.index], order);
   }
 
   return (
@@ -69,7 +61,7 @@ export const VirtualList = <T extends ListRowItem>({
           >
             <ItemRender
               isDragging={snapshot.isDragging}
-              item={items[rubric.source.index]}
+              item={data[rubric.source.index]}
               index={rubric.source.index}
             />
           </div>
@@ -80,7 +72,7 @@ export const VirtualList = <T extends ListRowItem>({
             {({ height, isScrolling, onChildScroll, scrollTop }) => (
               <List
                 autoHeight
-                rowCount={items.length}
+                rowCount={data.length}
                 height={height}
                 isScrolling={isScrolling}
                 onScroll={onChildScroll}
@@ -103,8 +95,8 @@ export const VirtualList = <T extends ListRowItem>({
                 }}
                 rowRenderer={({ index, style }) => (
                   <Draggable
-                    draggableId={items[index].id}
-                    key={items[index].id}
+                    draggableId={data[index].id}
+                    key={data[index].id}
                     index={index}
                   >
                     {(
@@ -122,7 +114,7 @@ export const VirtualList = <T extends ListRowItem>({
                         className="flex py-2"
                       >
                         <ItemRender
-                          item={items[index]}
+                          item={data[index]}
                           isDragging={snapshot.isDragging}
                           index={index}
                         />

@@ -16,11 +16,13 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-virtualized": "^9.21.15",
     "autoprefixer": "^9",
+    "axios": "^0.24.0",
     "node-sass": "^5.0.0",
     "postcss": "^7",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
     "react-redux": "^7.2.6",
     "react-scripts": "4.0.3",
     "react-virtualized": "^9.22.3",
@@ -29,7 +31,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "npx json-server -p 5000 -w db.json & craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"

@@ -1,0 +1,15 @@
+{
+  "places": [
+    {
+      "id": "ChIJ1zLGsk45J5URRscEagtVvIE",
+      "address": "Florianópolis, SC, Brasil",
+      "name": "Florianópolis",
+      "url": "https://maps.google.com/?q=Florian%C3%B3polis,+SC,+Brasil&ftid=0x9527394eb2c632d7:0x81bc550b6a04c746",
+      "geo": {
+        "lat": -27.5948036,
+        "lng": -48.5569286
+      },
+      "order": -33379
+    }
+  ]
+}
