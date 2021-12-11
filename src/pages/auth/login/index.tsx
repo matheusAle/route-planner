@@ -4,15 +4,17 @@ import {
   SubmitAction,
   TextInput,
 } from '@/common/components/form'
-import {REGISTER_URL} from '@/common/routes-urls'
-import {Link} from 'react-router-dom'
+import {REGISTER_URL, TRAVELS_URL} from '@/common/routes-urls'
+import {Link, useNavigate} from 'react-router-dom'
 import {useLogin} from './use-login'
 import {Login, valdiationSchema} from './validations'
 
 export const LoginPage = () => {
   const login = useLogin()
+  const navigate = useNavigate()
   const onSubmit: HandleSubmit<Login> = async ({email, password}) => {
     await login(email, password)
+    navigate(TRAVELS_URL, {replace: true})
   }
 
   return (

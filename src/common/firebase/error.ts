@@ -105,6 +105,8 @@ const translations = {
 export const getMessage = (err: any) => {
   console.log(err.code, (translations as any)[err.code as any] as any)
   return (
-    translations[err.code as keyof typeof translations] || translations.else
+    translations[err.code as keyof typeof translations] ||
+    err.message ||
+    translations.else
   )
 }

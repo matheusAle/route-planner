@@ -57,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@types/date-fns": "^2.6.0",
     "@types/firebase": "^3.2.1",
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-router": "^5.1.17",
@@ -64,6 +65,7 @@
     "@types/yup": "^0.29.13",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
+    "date-fns": "^2.27.0",
     "eslint": "^8.4.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",

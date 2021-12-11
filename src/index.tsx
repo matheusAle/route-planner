@@ -4,8 +4,6 @@ import {ToastContainer} from 'react-toastify'
 
 import './assets/styles/styles.scss'
 
-// import App from './App';
-
 import reportWebVitals from './reportWebVitals'
 import {Provider} from 'react-redux'
 import {store} from './store'
@@ -13,9 +11,16 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 import {RoutePlanerApp} from './pages/RoutePlanerApp'
 import {LoginPage} from './pages/auth/login'
-import {LOGIN_URL, REGISTER_URL} from './common/routes-urls'
+import {
+  LOGIN_URL,
+  PLANER_URL,
+  REGISTER_URL,
+  TRAVELS_URL,
+} from './common/routes-urls'
 import {UserContextProvider} from './common/hooks/use-user'
 import {RegisterPage} from './pages/auth/register'
+import {PlanerPage} from './pages/planer'
+import {TravelsPage} from './pages/travels'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -23,9 +28,12 @@ ReactDOM.render(
       <UserContextProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<RoutePlanerApp />} />
-            <Route path={LOGIN_URL} element={<LoginPage />} />
-            <Route path={REGISTER_URL} element={<RegisterPage />} />
+            <Route path="/" element={<RoutePlanerApp />}>
+              <Route path={LOGIN_URL} element={<LoginPage />} />
+              <Route path={REGISTER_URL} element={<RegisterPage />} />
+              <Route path={PLANER_URL} element={<PlanerPage />} />
+              <Route path={TRAVELS_URL} element={<TravelsPage />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </UserContextProvider>

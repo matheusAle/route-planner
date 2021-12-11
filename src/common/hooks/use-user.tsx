@@ -10,21 +10,23 @@ import React from 'react'
 
 export interface UserContext {
   isLoadingUser: boolean
-  user: User | null
+  user: User
 }
 
 const userContext = createContext<UserContext>({
   isLoadingUser: true,
-  user: null,
+  user: null as any,
 })
 
 export const UserContextProvider = ({children}: PropsWithChildren<any>) => {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User>(null as unknown as User)
   const [isLoadingUser, setLoadingUser] = useState(true)
 
   useEffect(() => {
     onAuthStateChanged(auth, data => {
-      setUser(data)
+      if (data) {
+        setUser(data)
+      }
       setLoadingUser(false)
     })
   }, [])

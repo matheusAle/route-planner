@@ -1,6 +1,20 @@
-import {getDatabase, onValue, ref, get} from 'firebase/database'
+export * from 'firebase/firestore'
+import {
+  getFirestore,
+  doc,
+  DocumentReference,
+  collection,
+} from 'firebase/firestore'
 import {app} from './app'
 
-const db = getDatabase(app)
+const db = getFirestore(app)
 
-export {db, onValue, ref, get}
+export const createRef = <T>(
+  path: string,
+  ...fragments: string[]
+): DocumentReference<T> => doc(db, path, ...fragments) as any
+
+export const createColRef = <T>(
+  path: string,
+  ...fragments: string[]
+): DocumentReference<T> => collection(db, path, ...fragments) as any

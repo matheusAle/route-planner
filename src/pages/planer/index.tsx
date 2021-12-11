@@ -1,14 +1,14 @@
-import React, {useState} from 'react'
+import {Place} from '@/common/api/types/place'
+import {Maps} from '@/common/components/maps'
+import {PlaceCard} from '@/common/components/place-card'
+import {Search} from '@/common/components/search'
+import {VirtualList} from '@/common/components/virtual-list'
+import {usePlacesMutation} from '@/common/hooks/use-places-mutation'
+import {Places} from '@/store'
+import {useState} from 'react'
 import {useSelector} from 'react-redux'
-import {Maps} from './common/components/maps'
-import {Search} from './common/components/search'
-import {VirtualList} from './common/components/virtual-list'
-import {Places} from './store'
-import {Place} from './common/api/types/place'
-import {usePlacesMutation} from './common/hooks/use-places-mutation'
-import {PlaceCard} from './common/components/place-card'
 
-function App() {
+export const PlanerPage = () => {
   const places = useSelector(Places.selectPlaces)
   const [selectedPlace, setSelectedPlace] = useState<Place>()
   const {updatePlace} = usePlacesMutation()
@@ -35,5 +35,3 @@ function App() {
     </div>
   )
 }
-
-export default App
