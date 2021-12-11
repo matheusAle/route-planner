@@ -7,7 +7,7 @@ export const TravelsPage = () => {
   const createTravel = useCreateTravel()
   return (
     <div className="h-screen flex flex-col items-center py-8">
-      <div className="card bordered w-2/3 bg-base-200">
+      <div className="card w-full md:bordered md:w-1/3 md:bg-base-200">
         <div className="card-body">
           <h2 className="card-title">Travels</h2>
           <button className="btn btn-primary" onClick={createTravel}>

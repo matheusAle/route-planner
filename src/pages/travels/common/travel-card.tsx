@@ -6,12 +6,13 @@ import {PLANER_URL} from '@/common/routes-urls'
 export interface TravelCardProps {
   item: Travel
 }
+
 export const TravelCard = ({item}: TravelCardProps) => {
   const lastEdit = useFormatDateAgo(item.editAt)
   const navigate = useNavigate()
   return (
     <div
-      className="card bordered bg-base-100 transform hover:translate-x-2 transition-transform cursor-pointer"
+      className="card bordered bg-base-200 md:bg-base-100 transform hover:translate-x-2 transition-transform cursor-pointer"
       onClick={() => {
         navigate(`${PLANER_URL}/${item.name}/${item.uid}`)
       }}

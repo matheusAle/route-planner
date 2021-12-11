@@ -19,7 +19,7 @@ export const RegisterPage = () => {
 
   return (
     <div className="h-screen flex flex-col items-center justify-center">
-      <div className="card bordered w-1/3 bg-base-200">
+      <div className="card w-full md:bordered md:w-1/3 md:bg-base-200">
         <div className="card-body">
           <h2 className="card-title">Sign up</h2>
           <Form<Register>
