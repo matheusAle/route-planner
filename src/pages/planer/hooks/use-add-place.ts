@@ -1,5 +1,25 @@
-import {Place} from '@/common/api/types/place'
+import {getPositionForIndex} from '@/common/components/virtual-list/helpers'
+import {getMessage} from '@/common/firebase/error'
+import {Col, createRef, setDoc} from '@/common/firebase/firestore'
+import {useUser} from '@/common/hooks/use-user'
+import {errorNotification} from '@/common/notification'
+import {Place} from '@/common/types/place'
+import {usePlaner} from './use-planer'
 
 export const useAddPlace = () => {
-  return (place: Place) => void 0
+  const {travel, places} = usePlaner()
+  const {user} = useUser()
+
+  return (place: Omit<Place, 'order'>) => {
+    const order = getPositionForIndex(
+      places.map(p => p.order),
+      places.length,
+    )
+
+    const ref = createRef<Place>(Col.travelsPlaces(user, travel), place.id)
+    setDoc(ref, {
+      ...place,
+      order,
+    }).catch(err => errorNotification(getMessage(err)))
+  }
 }

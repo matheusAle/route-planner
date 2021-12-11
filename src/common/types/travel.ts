@@ -3,7 +3,3 @@ export interface Travel {
   uid: string
   editAt: string
 }
-
-export interface UserTravelsDocument {
-  items: Travel[]
-}

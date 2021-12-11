@@ -1,10 +1,14 @@
 import {useCallback, useMemo, useState} from 'react'
-import {Place} from '../../api/types/place'
+import {usePlaner} from '../hooks/use-planer'
 
-export const useDirections = (places: Place[]) => {
+export const useDirections = () => {
+  const {places} = usePlaner()
   const [directions, setDirections] = useState<google.maps.DirectionsResult>()
 
-  const directionsRequest = useMemo<google.maps.DirectionsRequest>(() => {
+  const directionsRequest = useMemo<
+    google.maps.DirectionsRequest | undefined
+  >(() => {
+    if (!places.length) return
     const [origin] = places
 
     return {
@@ -23,7 +27,6 @@ export const useDirections = (places: Place[]) => {
       result: google.maps.DirectionsResult | null,
       status: google.maps.DirectionsStatus,
     ) => {
-      console.log({result, status})
       if (status !== google.maps.DirectionsStatus.OK || !result) {
         return
       }

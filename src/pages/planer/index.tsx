@@ -1,37 +1,37 @@
-import {Place} from '@/common/api/types/place'
-import {Maps} from '@/common/components/maps'
-import {PlaceCard} from '@/common/components/place-card'
-import {Search} from '@/common/components/search'
-import {VirtualList} from '@/common/components/virtual-list'
-import {usePlacesMutation} from '@/common/hooks/use-places-mutation'
-import {Places} from '@/store'
+import {Place} from '@/common/types/place'
+import {Maps} from '@/pages/planer/maps'
+import {useMaps} from '@/common/hooks/use-maps'
 import {useState} from 'react'
-import {useSelector} from 'react-redux'
+import {usePlaces} from './hooks/use-places'
+import {useTravel} from './hooks/use-travel'
+import {Search} from './common/search'
+import {PlanerContextProvider} from './hooks/use-planer'
+import {Places} from './places'
 
 export const PlanerPage = () => {
-  const places = useSelector(Places.selectPlaces)
+  const {travel, isTravelLoading} = useTravel()
+  const {isLoaded} = useMaps()
+  const {places, isPlacesLoading} = usePlaces(travel)
   const [selectedPlace, setSelectedPlace] = useState<Place>()
-  const {updatePlace} = usePlacesMutation()
+
+  if (isTravelLoading || isPlacesLoading || !isLoaded) return <>loading...</>
 
   return (
-    <div className="grid grid-cols-shell h-screen">
-      <div>
-        <Search />
-        <VirtualList
-          data={places}
-          sorted={(item, order) => {
-            updatePlace({...item, order})
-          }}
-          itemRender={({item}) => (
-            <PlaceCard
-              place={item}
-              key={item.id}
-              onClick={() => setSelectedPlace(item)}
-            />
-          )}
-        />
+    <PlanerContextProvider
+      selectPlace={setSelectedPlace}
+      selectedPlace={selectedPlace}
+      places={places}
+      travel={travel}
+    >
+      <div className="grid grid-cols-shell h-screen">
+        <div className="card">
+          <div className="card-body">
+            <Search />
+            <Places />
+          </div>
+        </div>
+        <Maps />
       </div>
-      <Maps centerplace={selectedPlace} />
-    </div>
+    </PlanerContextProvider>
   )
 }

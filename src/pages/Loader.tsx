@@ -8,7 +8,6 @@ export const Loader: React.FC<any> = ({children}) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log({isLoadingUser, user})
     if (!isLoadingUser && !user) navigate(LOGIN_URL, {replace: true})
   }, [isLoadingUser, user, navigate])
 

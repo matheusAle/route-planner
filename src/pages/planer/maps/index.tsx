@@ -4,24 +4,18 @@ import {
   DirectionsRenderer,
   DirectionsService,
 } from '@react-google-maps/api'
-import {Places} from '@/store'
-import {useSelector} from 'react-redux'
-import {Place} from '../../api/types/place'
 import {useDirections} from './use-directions'
+import {usePlaner} from '../hooks/use-planer'
 
 const containerStyle = {
   width: '100%',
   height: '100%',
 }
 
-interface MapsProps {
-  centerplace?: Place
-}
-
-export const Maps = ({centerplace}: MapsProps) => {
+export const Maps = () => {
+  const {selectedPlace} = usePlaner()
   const [, setMap] = React.useState<google.maps.Map | null>(null)
-  const places = useSelector(Places.selectPlaces)
-  const {directions, setDirections, directionsRequest} = useDirections(places)
+  const {directions, setDirections, directionsRequest} = useDirections()
 
   const onLoad = React.useCallback(mapLoad => {
     const bounds = new window.google.maps.LatLngBounds()
@@ -36,13 +30,18 @@ export const Maps = ({centerplace}: MapsProps) => {
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={centerplace?.geo}
+      center={selectedPlace?.geo}
       zoom={10}
       onLoad={onLoad}
       onUnmount={onUnmount}
       mapContainerClassName="h-full w-full"
     >
-      <DirectionsService options={directionsRequest} callback={setDirections} />
+      {directionsRequest && (
+        <DirectionsService
+          options={directionsRequest}
+          callback={setDirections}
+        />
+      )}
       <DirectionsRenderer
         options={{
           directions,

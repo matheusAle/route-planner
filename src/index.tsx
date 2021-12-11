@@ -5,8 +5,6 @@ import {ToastContainer} from 'react-toastify'
 import './assets/styles/styles.scss'
 
 import reportWebVitals from './reportWebVitals'
-import {Provider} from 'react-redux'
-import {store} from './store'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 import {RoutePlanerApp} from './pages/RoutePlanerApp'
@@ -24,21 +22,22 @@ import {TravelsPage} from './pages/travels'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <UserContextProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<RoutePlanerApp />}>
-              <Route path={LOGIN_URL} element={<LoginPage />} />
-              <Route path={REGISTER_URL} element={<RegisterPage />} />
-              <Route path={PLANER_URL} element={<PlanerPage />} />
-              <Route path={TRAVELS_URL} element={<TravelsPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </UserContextProvider>
-      <ToastContainer />
-    </Provider>
+    <UserContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<RoutePlanerApp />}>
+            <Route path={LOGIN_URL} element={<LoginPage />} />
+            <Route path={REGISTER_URL} element={<RegisterPage />} />
+            <Route path={TRAVELS_URL} element={<TravelsPage />} />
+            <Route
+              path={`${PLANER_URL}/:name/:travel`}
+              element={<PlanerPage />}
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </UserContextProvider>
+    <ToastContainer />
   </React.StrictMode>,
   document.getElementById('root'),
 )

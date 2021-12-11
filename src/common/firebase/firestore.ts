@@ -1,10 +1,13 @@
 export * from 'firebase/firestore'
+import {User} from 'firebase/auth'
 import {
   getFirestore,
   doc,
   DocumentReference,
   collection,
+  CollectionReference,
 } from 'firebase/firestore'
+import {Travel} from '../types/travel'
 import {app} from './app'
 
 const db = getFirestore(app)
@@ -17,4 +20,10 @@ export const createRef = <T>(
 export const createColRef = <T>(
   path: string,
   ...fragments: string[]
-): DocumentReference<T> => collection(db, path, ...fragments) as any
+): CollectionReference<T> => collection(db, path, ...fragments) as any
+
+export const Col = {
+  travels: (user: User) => `travels_${user.uid}`,
+  travelsPlaces: (user: User, travel: Travel) =>
+    `places_${travel.uid}_${user.uid}`,
+}

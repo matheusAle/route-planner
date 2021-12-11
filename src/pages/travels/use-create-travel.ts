@@ -1,8 +1,8 @@
 import {getMessage} from '@/common/firebase/error'
-import {createRef, updateDoc, arrayUnion} from '@/common/firebase/firestore'
+import {createRef, setDoc, Col} from '@/common/firebase/firestore'
 import {useUser} from '@/common/hooks/use-user'
 import {errorNotification} from '@/common/notification'
-import {Travel, UserTravelsDocument} from '@/common/types/travel'
+import {Travel} from '@/common/types/travel'
 import {nowAsUtcString} from '@/common/utils/date'
 import {getUid} from '@/common/utils/uid'
 
@@ -19,9 +19,7 @@ export const useCreateTravel = () => {
       editAt: nowAsUtcString(),
     }
 
-    const ref = createRef<UserTravelsDocument>(user.uid, 'travels')
-    updateDoc(ref, {items: arrayUnion(travel)}).catch(err =>
-      errorNotification(getMessage(err)),
-    )
+    const ref = createRef(Col.travels(user), travel.uid)
+    setDoc(ref, travel).catch(err => errorNotification(getMessage(err)))
   }
 }

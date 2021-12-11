@@ -1,6 +1,6 @@
-import {createRef, onSnapshot} from '@/common/firebase/firestore'
+import {Col, createColRef, onSnapshot} from '@/common/firebase/firestore'
 import {useUser} from '@/common/hooks/use-user'
-import {Travel, UserTravelsDocument} from '@/common/types/travel'
+import {Travel} from '@/common/types/travel'
 import {useEffect, useState} from 'react'
 
 export const useTravelList = () => {
@@ -9,10 +9,10 @@ export const useTravelList = () => {
 
   useEffect(() => {
     if (!user) return setList([])
-    const ref = createRef<UserTravelsDocument>(user.uid, 'travels')
+    const ref = createColRef<Travel>(Col.travels(user))
 
     return onSnapshot(ref, doc => {
-      setList(doc.data()?.items || [])
+      setList(doc.docs.map(i => i.data()) || [])
     })
   }, [user])
 
