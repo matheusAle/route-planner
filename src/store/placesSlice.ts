@@ -1,12 +1,11 @@
-import { Place } from '@/common/api/types/place';
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '.';
-
+import {Place} from '@/common/api/types/place'
+import {createEntityAdapter, createSlice} from '@reduxjs/toolkit'
+import {RootState} from '.'
 
 export const placesAdapter = createEntityAdapter<Place>({
   selectId: marker => marker.id || '',
   sortComparer: (a, b) => a.order - b.order,
-});
+})
 
 export const placesSlice = createSlice({
   name: 'places',
@@ -17,12 +16,12 @@ export const placesSlice = createSlice({
     update: placesAdapter.updateOne,
     remove: placesAdapter.removeOne,
   },
-});
+})
 
-export const { addPlace, addAll, update, remove } = placesSlice.actions;
+export const {addPlace, addAll, update, remove} = placesSlice.actions
 
 const globalizedSelectors = placesAdapter.getSelectors(
   (state: RootState) => state.places,
-);
+)
 export const selectPlaces = (state: RootState) =>
-  globalizedSelectors.selectAll(state);
+  globalizedSelectors.selectAll(state)

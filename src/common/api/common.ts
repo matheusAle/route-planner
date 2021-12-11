@@ -1,12 +1,12 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, {AxiosRequestConfig} from 'axios'
 
 // import * as Session from '../Session';
 
-const baseURL = 'http://localhost:5000';
+const baseURL = 'http://localhost:5000'
 
 export const api = axios.create({
   baseURL,
-});
+})
 
 // api.interceptors.request.use(config => {
 //   const nConfig = { ...config };
@@ -34,5 +34,5 @@ export const api = axios.create({
 // );
 
 export function requestWraper<T>(settings: AxiosRequestConfig) {
-  return api.request<T>(settings).then(({ data }) => data);
+  return api.request<T>(settings).then(({data}) => data)
 }

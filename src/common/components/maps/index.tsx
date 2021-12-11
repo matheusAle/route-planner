@@ -1,33 +1,37 @@
-import React from 'react';
-import { GoogleMap, DirectionsRenderer, DirectionsService } from '@react-google-maps/api';
-import { Places } from '@/store';
-import { useSelector } from 'react-redux';
-import { Place } from '../../api/types/place';
-import { useDirections } from './use-directions';
+import React from 'react'
+import {
+  GoogleMap,
+  DirectionsRenderer,
+  DirectionsService,
+} from '@react-google-maps/api'
+import {Places} from '@/store'
+import {useSelector} from 'react-redux'
+import {Place} from '../../api/types/place'
+import {useDirections} from './use-directions'
 
 const containerStyle = {
   width: '100%',
   height: '100%',
-};
-
-interface MapsProps {
-  centerplace?: Place;
 }
 
-export const Maps = ({ centerplace }: MapsProps) => {
-  const [, setMap] = React.useState<google.maps.Map | null>(null);
-  const places = useSelector(Places.selectPlaces);
-  const {directions, setDirections, directionsRequest} = useDirections(places);
+interface MapsProps {
+  centerplace?: Place
+}
+
+export const Maps = ({centerplace}: MapsProps) => {
+  const [, setMap] = React.useState<google.maps.Map | null>(null)
+  const places = useSelector(Places.selectPlaces)
+  const {directions, setDirections, directionsRequest} = useDirections(places)
 
   const onLoad = React.useCallback(mapLoad => {
-    const bounds = new window.google.maps.LatLngBounds();
-    mapLoad.fitBounds(bounds);
-    setMap(mapLoad);
-  }, []);
+    const bounds = new window.google.maps.LatLngBounds()
+    mapLoad.fitBounds(bounds)
+    setMap(mapLoad)
+  }, [])
 
   const onUnmount = React.useCallback(() => {
-    setMap(null);
-  }, []);
+    setMap(null)
+  }, [])
 
   return (
     <GoogleMap
@@ -38,16 +42,13 @@ export const Maps = ({ centerplace }: MapsProps) => {
       onUnmount={onUnmount}
       mapContainerClassName="h-full w-full"
     >
-      <DirectionsService
-        options={directionsRequest}
-        callback={setDirections}
-      />
+      <DirectionsService options={directionsRequest} callback={setDirections} />
       <DirectionsRenderer
-        options={{ 
-          directions
+        options={{
+          directions,
         }}
       />
       <></>
     </GoogleMap>
-  );
-};
+  )
+}

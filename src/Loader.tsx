@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react';
-import { fetchPlaces } from './common/api/places';
-import { useMaps } from './common/hooks/use-maps';
-import { Places, useAppDispatch } from './store';
+import React, {useEffect} from 'react'
+import {useNavigate} from 'react-router-dom'
+import {useUser} from './common/hooks/use-user'
+import {LOGIN_URL} from './common/routes-urls'
 
-export const Loader: React.FC<any> = ({ children }) => {
-  const { isLoaded } = useMaps();
-  const dispatch = useAppDispatch()
+export const Loader: React.FC<any> = ({children}) => {
+  const {user, isLoadingUser} = useUser()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    fetchPlaces()
-    .then(places => dispatch(Places.addAll(places)))
-  }, [])
+    if (!isLoadingUser && !user) navigate(LOGIN_URL, {replace: true})
+  }, [isLoadingUser, user, navigate])
 
-  return isLoaded ? children : <></>;
-};
+  return !isLoadingUser ? children : <></>
+}

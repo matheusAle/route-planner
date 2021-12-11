@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   DropResult,
   Droppable,
@@ -8,39 +8,38 @@ import {
   DraggableStateSnapshot,
   DraggableRubric,
   DroppableProvided,
-} from 'react-beautiful-dnd';
-import 'react-virtualized/styles.css';
-import { WindowScroller, List } from 'react-virtualized';
-import ReactDOM from 'react-dom';
-import { getPositionForIndex } from './helpers';
+} from 'react-beautiful-dnd'
+import 'react-virtualized/styles.css'
+import {WindowScroller, List} from 'react-virtualized'
+import ReactDOM from 'react-dom'
+import {getPositionForIndex} from './helpers'
 
 export interface ListRowItem {
-  id: string;
+  id: string
   order: number
 }
 
 export interface ListRowProps<T> {
-  item: T;
-  isDragging: boolean;
-  index: number;
+  item: T
+  isDragging: boolean
+  index: number
 }
 
 interface VirtualListProps<T> {
-  data: T[];
-  itemRender(props: ListRowProps<T>): React.ReactElement;
-  sorted?(item: T, order: number): void;
+  data: T[]
+  itemRender(props: ListRowProps<T>): React.ReactElement
+  sorted?(item: T, order: number): void
 }
 
 export const VirtualList = <T extends ListRowItem>({
   data,
   itemRender: ItemRender,
-  sorted = () => void 0
+  sorted = () => void 0,
 }: VirtualListProps<T>) => {
-
   function onDragEnd(result: DropResult) {
-    const orders = data.map(item => item.order);
+    const orders = data.map(item => item.order)
     const order = getPositionForIndex(orders, result.destination?.index || 0)
-    sorted(data[result.source.index], order);
+    sorted(data[result.source.index], order)
   }
 
   return (
@@ -69,7 +68,7 @@ export const VirtualList = <T extends ListRowItem>({
       >
         {(droppableProvided: DroppableProvided) => (
           <WindowScroller>
-            {({ height, isScrolling, onChildScroll, scrollTop }) => (
+            {({height, isScrolling, onChildScroll, scrollTop}) => (
               <List
                 autoHeight
                 rowCount={data.length}
@@ -87,13 +86,13 @@ export const VirtualList = <T extends ListRowItem>({
                   // So we use the `ReactDOM.findDOMNode(ref)` escape hatch to get the ref
                   if (ref) {
                     // eslint-disable-next-line react/no-find-dom-node
-                    const whatHasMyLifeComeTo = ReactDOM.findDOMNode(ref);
+                    const whatHasMyLifeComeTo = ReactDOM.findDOMNode(ref)
                     if (whatHasMyLifeComeTo instanceof HTMLElement) {
-                      droppableProvided.innerRef(whatHasMyLifeComeTo);
+                      droppableProvided.innerRef(whatHasMyLifeComeTo)
                     }
                   }
                 }}
-                rowRenderer={({ index, style }) => (
+                rowRenderer={({index, style}) => (
                   <Draggable
                     draggableId={data[index].id}
                     key={data[index].id}
@@ -128,5 +127,5 @@ export const VirtualList = <T extends ListRowItem>({
         )}
       </Droppable>
     </DragDropContext>
-  );
-};
+  )
+}
