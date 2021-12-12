@@ -9,13 +9,15 @@ export const Places = () => {
   return (
     <VirtualList
       data={places}
+      idPredicate={item => item.uid}
+      orderPredicate={item => item.order}
       sorted={(item, order) => {
         updatePlace({...item, order})
       }}
       itemRender={({item}) => (
         <PlaceCard
           place={item}
-          key={item.id}
+          key={item.uid}
           onClick={() => selectPlace(item)}
         />
       )}

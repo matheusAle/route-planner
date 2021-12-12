@@ -10,7 +10,7 @@ export const useUpdatePlace = () => {
   const {user} = useUser()
 
   return (place: Place) => {
-    const ref = createRef<Place>(Col.travelsPlaces(user, travel), place.id)
+    const ref = createRef<Place>(Col.travelsPlaces(user, travel), place.uid)
     updateDoc(ref, place).catch(err => errorNotification(getMessage(err)))
   }
 }

@@ -3,7 +3,8 @@ export interface Place {
     lat: number
     lng: number
   }
-  id: string
+  uid: string
+  place_id: string
   name: string
   url: string
   address: string

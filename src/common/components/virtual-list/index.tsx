@@ -14,11 +14,6 @@ import {WindowScroller, List} from 'react-virtualized'
 import ReactDOM from 'react-dom'
 import {getPositionForIndex} from './helpers'
 
-export interface ListRowItem {
-  id: string
-  order: number
-}
-
 export interface ListRowProps<T> {
   item: T
   isDragging: boolean
@@ -29,15 +24,19 @@ interface VirtualListProps<T> {
   data: T[]
   itemRender(props: ListRowProps<T>): React.ReactElement
   sorted?(item: T, order: number): void
+  idPredicate(i: T): string
+  orderPredicate(i: T): number
 }
 
-export const VirtualList = <T extends ListRowItem>({
+export const VirtualList = <T,>({
   data,
   itemRender: ItemRender,
   sorted = () => void 0,
+  idPredicate,
+  orderPredicate,
 }: VirtualListProps<T>) => {
   function onDragEnd(result: DropResult) {
-    const orders = data.map(item => item.order)
+    const orders = data.map(orderPredicate)
     const order = getPositionForIndex(orders, result.destination?.index || 0)
     sorted(data[result.source.index], order)
   }
@@ -94,8 +93,8 @@ export const VirtualList = <T extends ListRowItem>({
                 }}
                 rowRenderer={({index, style}) => (
                   <Draggable
-                    draggableId={data[index].id}
-                    key={data[index].id}
+                    draggableId={idPredicate(data[index])}
+                    key={idPredicate(data[index])}
                     index={index}
                   >
                     {(

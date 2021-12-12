@@ -10,7 +10,7 @@ export const useDeletePlace = () => {
   const {user} = useUser()
 
   return (place: Place) => {
-    const ref = createRef<Place>(Col.travelsPlaces(user, travel), place.id)
+    const ref = createRef<Place>(Col.travelsPlaces(user, travel), place.uid)
     deleteDoc(ref).catch(err => errorNotification(getMessage(err)))
   }
 }

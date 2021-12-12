@@ -1,18 +1,19 @@
-import React, {useRef} from 'react'
+import {useRef} from 'react'
 import {StandaloneSearchBox} from '@react-google-maps/api'
-import {Place} from '@/common/types/place'
 import {useAddPlace} from '../../hooks/use-add-place'
+import {getUid} from '@/common/utils/uid'
 
 export const Search = () => {
   const searchBox = useRef<StandaloneSearchBox>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const addPlace = useAddPlace()
-  // const dispatch = useAppDispatch()
-  // const places = useSelector(Places.selectPlaces)
-  const onPlacesChanged = () => {
-    const [selection] = searchBox.current?.state.searchBox?.getPlaces() || []
 
+  const onPlacesChanged = () => {
+    if (!searchBox.current) return
+    const [selection] = searchBox.current.state.searchBox?.getPlaces() || []
     addPlace({
-      id: selection.place_id || '',
+      uid: getUid(),
+      place_id: selection.place_id || '',
       address: selection.formatted_address || selection.name || '',
       name: selection.name || '',
       url: selection.url || '',
@@ -21,12 +22,14 @@ export const Search = () => {
         lng: selection.geometry?.location?.lng() || 0,
       },
     })
+    if (inputRef.current) inputRef.current.value = ''
   }
 
   return (
     <div data-standalone-searchbox="" className="form-control">
       <StandaloneSearchBox ref={searchBox} onPlacesChanged={onPlacesChanged}>
         <input
+          ref={inputRef}
           type="text"
           placeholder="Buscar Lugar"
           className="input input-bordered input-primary w-full"

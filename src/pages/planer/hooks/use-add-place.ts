@@ -16,7 +16,7 @@ export const useAddPlace = () => {
       places.length,
     )
 
-    const ref = createRef<Place>(Col.travelsPlaces(user, travel), place.id)
+    const ref = createRef<Place>(Col.travelsPlaces(user, travel), place.uid)
     setDoc(ref, {
       ...place,
       order,

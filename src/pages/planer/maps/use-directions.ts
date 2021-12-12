@@ -12,11 +12,11 @@ export const useDirections = () => {
     const [origin] = places
 
     return {
-      origin: {placeId: origin.id},
-      destination: {placeId: places[places.length - 1].id},
+      origin: {placeId: origin.place_id},
+      destination: {placeId: places[places.length - 1].place_id},
       travelMode: google.maps.TravelMode.DRIVING,
       waypoints: places.slice(1, -1).map(place => ({
-        location: {placeId: place.id},
+        location: {placeId: place.place_id},
         stopover: true,
       })),
     }
