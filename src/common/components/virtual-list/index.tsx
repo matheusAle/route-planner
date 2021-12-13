@@ -55,7 +55,7 @@ export const VirtualList = <T,>({
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
-            className="flex py-2"
+            className="flex"
           >
             <ItemRender
               isDragging={snapshot.isDragging}
@@ -79,7 +79,6 @@ export const VirtualList = <T,>({
                 estimatedRowSize={100}
                 autoWidth
                 width={10000}
-                className="p-5"
                 ref={ref => {
                   // react-virtualized has no way to get the list's ref that I can so
                   // So we use the `ReactDOM.findDOMNode(ref)` escape hatch to get the ref

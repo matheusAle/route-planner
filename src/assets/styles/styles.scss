@@ -2,4 +2,8 @@
 
 @tailwind base;
 @tailwind components;
+
+@import './components/modal-sheet';
+@import './components/google-autocomplete';
+
 @tailwind utilities;

@@ -42,11 +42,13 @@ export const Maps = () => {
           callback={setDirections}
         />
       )}
-      <DirectionsRenderer
-        options={{
-          directions,
-        }}
-      />
+      {directions && (
+        <DirectionsRenderer
+          options={{
+            directions,
+          }}
+        />
+      )}
       <></>
     </GoogleMap>
   )

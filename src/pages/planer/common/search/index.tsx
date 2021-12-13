@@ -31,7 +31,7 @@ export const Search = () => {
         <input
           ref={inputRef}
           type="text"
-          placeholder="Buscar Lugar"
+          placeholder="Search somewhere..."
           className="input input-bordered input-primary w-full"
         />
       </StandaloneSearchBox>

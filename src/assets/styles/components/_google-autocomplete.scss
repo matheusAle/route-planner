@@ -1,0 +1,20 @@
+.pac-container {
+    @apply bg-base-100 p-3 divide-solid;
+    z-index: 99999999;
+    
+    .pac-icon	{
+        @apply text-gray-500
+    }
+
+    .pac-item {
+        @apply p-2 border-gray-500 text-gray-400 text-base;
+
+        .pac-item-query {
+            @apply text-gray-200
+        }
+
+        &.pac-item-selected {
+            @apply bg-gray-600
+        }
+    }
+}
