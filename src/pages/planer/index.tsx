@@ -7,9 +7,6 @@ import {useTravel} from './hooks/use-travel'
 import {PlanerContextProvider} from './hooks/use-planer'
 import {Places} from './places'
 import {ScreenLayout} from '@/common/components/screen-layout'
-import {Modal} from '@/common/components/modal'
-import {MdChevronLeft} from 'react-icons/md'
-import {cn} from '@/common/utils/classnames'
 import {PlacesModal} from './common/places-modal'
 
 export const PlanerPage = () => {
