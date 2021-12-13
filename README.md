@@ -1,3 +1,10 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ce00dc65-f6b2-47e1-a66c-8375ec16ff28/deploy-status)](https://app.netlify.com/sites/route-planer/deploys)
+# Route Planer
+
+## Add places and find the best directions
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
