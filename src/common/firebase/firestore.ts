@@ -23,7 +23,7 @@ export const createColRef = <T>(
 ): CollectionReference<T> => collection(db, path, ...fragments) as any
 
 export const Col = {
-  travels: (user: User) => `travels_${user.uid}`,
+  travels: (user: User) => `${user.uid}/travels/own`,
   travelsPlaces: (user: User, travel: Travel) =>
-    `places_${travel.uid}_${user.uid}`,
+    `${user.uid}/places/${travel.uid}`,
 }
