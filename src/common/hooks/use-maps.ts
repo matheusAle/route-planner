@@ -5,7 +5,7 @@ const libraries: any[] = ['places']
 export const useMaps = () => {
   return useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyDCcslkcL69SV9xpuKUtWAt-EZ-9Gur0wQ',
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
     libraries,
   })
 }
