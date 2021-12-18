@@ -27,11 +27,14 @@ export const PlanerPage = () => {
       travel={travel}
     >
       <ScreenLayout.Desktop>
-        <DatePicker />
         <Timeline />
         <div className="grid grid-cols-shell h-screen">
           <div className="card">
             <div className="card-body">
+              <div className="flex mb-5">
+                <h1 className="text-xl mr-4">{travel.name}</h1>
+                <DatePicker />
+              </div>
               <Places />
             </div>
           </div>
