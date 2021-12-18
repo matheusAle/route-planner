@@ -8,6 +8,8 @@ import {PlanerContextProvider} from './hooks/use-planer'
 import {Places} from './places'
 import {ScreenLayout} from '@/common/components/screen-layout'
 import {PlacesModal} from './common/places-modal'
+import {Timeline} from './timeline'
+import {DatePicker} from '@/common/components/date-picker'
 
 export const PlanerPage = () => {
   const {travel, isTravelLoading} = useTravel()
@@ -25,6 +27,8 @@ export const PlanerPage = () => {
       travel={travel}
     >
       <ScreenLayout.Desktop>
+        <DatePicker />
+        <Timeline />
         <div className="grid grid-cols-shell h-screen">
           <div className="card">
             <div className="card-body">
