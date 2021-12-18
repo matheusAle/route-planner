@@ -7,6 +7,9 @@ interface PlanerContext {
   selectPlace(p: Place): void
   places: Place[]
   travel: Travel
+
+  directions?: google.maps.DirectionsResult
+  setDirections(r: google.maps.DirectionsResult): void
 }
 
 const context = createContext<PlanerContext>({} as any)

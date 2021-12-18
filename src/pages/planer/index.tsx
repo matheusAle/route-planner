@@ -16,6 +16,7 @@ export const PlanerPage = () => {
   const {isLoaded} = useMaps()
   const {places, isPlacesLoading} = usePlaces(travel)
   const [selectedPlace, setSelectedPlace] = useState<Place>()
+  const [directions, setDirections] = useState<google.maps.DirectionsResult>()
 
   if (isTravelLoading || isPlacesLoading || !isLoaded) return <>loading...</>
 
@@ -25,6 +26,8 @@ export const PlanerPage = () => {
       selectedPlace={selectedPlace}
       places={places}
       travel={travel}
+      directions={directions}
+      setDirections={setDirections}
     >
       <ScreenLayout.Desktop>
         <DatePicker />
