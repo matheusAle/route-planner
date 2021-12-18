@@ -1,18 +1,22 @@
 module.exports = {
-  purge: [],
+  purge: {
+    options: {
+      safelist: [/^Calendar/, /^DateInput/, /^DayPicke/, /^DateRangePicker/],
+    },
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
-      'sm': '640px',
-      'md': '768px',
-      'lg': '1024px',
-      'xl': '1280px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
       '2xl': '1536px',
     },
     extend: {
       gridTemplateColumns: {
-        'shell': '560px 1fr'
-      }
+        shell: '560px 1fr',
+      },
     },
   },
   variants: {
