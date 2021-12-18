@@ -4,6 +4,7 @@ import {SliderRail, Handle, Track, Tick} from './components'
 const sliderStyle = {
   position: 'relative',
   width: '100%',
+  zIndex: 0,
 }
 
 const domain = [100, 500]
