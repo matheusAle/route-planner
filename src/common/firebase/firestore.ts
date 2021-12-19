@@ -24,6 +24,8 @@ export const createColRef = <T>(
 
 export const Col = {
   travels: (user: User) => `${user.uid}/travels/own`,
+  travel: (user: User, travel: Travel) =>
+    `${user.uid}/travels/own/${travel.uid}`,
   travelsPlaces: (user: User, travel: Travel) =>
     `${user.uid}/places/${travel.uid}`,
 }

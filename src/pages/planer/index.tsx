@@ -9,7 +9,7 @@ import {Places} from './places'
 import {ScreenLayout} from '@/common/components/screen-layout'
 import {PlacesModal} from './common/places-modal'
 import {Timeline} from './timeline'
-import {DatePicker} from '@/common/components/date-picker'
+import {Travel} from './common/travel'
 
 export const PlanerPage = () => {
   const {travel, isTravelLoading} = useTravel()
@@ -17,7 +17,6 @@ export const PlanerPage = () => {
   const {places, isPlacesLoading} = usePlaces(travel)
   const [selectedPlace, setSelectedPlace] = useState<Place>()
   const [directions, setDirections] = useState<google.maps.DirectionsResult>()
-
   if (isTravelLoading || isPlacesLoading || !isLoaded) return <>loading...</>
 
   return (
@@ -34,10 +33,7 @@ export const PlanerPage = () => {
         <div className="grid grid-cols-shell h-screen">
           <div className="card">
             <div className="card-body">
-              <div className="flex mb-5">
-                <h1 className="text-xl mr-4">{travel.name}</h1>
-                <DatePicker />
-              </div>
+              <Travel />
               <Places />
             </div>
           </div>
@@ -49,6 +45,7 @@ export const PlanerPage = () => {
           <Maps />
         </div>
         <PlacesModal>
+          <Travel />
           <Places />
         </PlacesModal>
       </ScreenLayout.NotAnDesktop>
