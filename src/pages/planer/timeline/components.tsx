@@ -60,7 +60,7 @@ export function Handle({
           // border: '1px solid white',
           backgroundColor: 'none',
         }}
-        {...getHandleProps(id)}
+        {...(disabled ? {} : getHandleProps(id))}
       />
       <div
         role="slider"
