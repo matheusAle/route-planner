@@ -164,7 +164,7 @@ export function Track({source, target, getTrackProps, disabled, item}: any) {
       }}
       {...getTrackProps()}
     >
-      {item?.name}
+      {item?.name || item?.distance}
     </div>
   )
 }
