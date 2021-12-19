@@ -65,25 +65,29 @@ export const Timeline = () => {
     // set handles
     const valuesToSet: timelineHandle[] = []
     let atAcc = 0
+    let leg = null
     places.forEach((place, index, places) => {
       if (index > 0) atAcc += stopTime
+      leg = directions?.routes[0].legs[index]
+      console.log(leg)
       valuesToSet.push({
         name: '',
         at: atAcc,
-        distance: '',
+        distance: leg ? leg.distance!.text : '',
+        // distance: leg.distance!.text,
         type: 'stop',
       })
       if (directions?.routes[0].legs[index]) {
-        const leg = directions?.routes[0].legs[index]
         atAcc += leg.duration?.value as number
         valuesToSet.push({
           name: places[index + 1].name,
           at: atAcc,
-          distance: leg.distance!.text,
+          distance: '',
           type: 'move',
         })
       }
     })
+    console.log(valuesToSet)
     setValues(valuesToSet)
   }, [directions, places])
 

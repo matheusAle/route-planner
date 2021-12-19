@@ -159,6 +159,8 @@ export function Track({source, target, getTrackProps, disabled, item}: any) {
         backgroundColor: disabled ? '' : '#b28900',
         borderRadius: 7,
         cursor: 'pointer',
+        textAlign: 'center',
+        fontSize: '12px',
         left: `${source.percent}%`,
         width: `${target.percent - source.percent}%`,
       }}
