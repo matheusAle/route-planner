@@ -17,9 +17,14 @@ const defaultValues = [
   {name: 'place 2', at: 350, type: 'stop'},
 ]
 
+const firstOrLast = (index: number, length: number): boolean => {
+  return index === 0 || index + 1 === length
+}
+
 interface timelineHandle {
   name: string
   type: string
+  distance: string
   at: number
 }
 
@@ -33,13 +38,16 @@ export const Timeline = () => {
   // const {places, isPlacesLoading} = usePlaces(travel)
   // const {directions, setDirections} = useDirections()
 
+  const onChange = (values: readonly number[]) => {
+    console.log(values)
+    //
+  }
+
   useEffect(() => {
     // dont execute if directions is not loaded
     if (!(places && directions)) return
     // places and legs does not match
     if (places.length !== directions.routes[0].legs.length + 1) return
-
-    console.log('update timeline')
 
     console.log(places)
     console.log(directions)
@@ -62,6 +70,7 @@ export const Timeline = () => {
       valuesToSet.push({
         name: '',
         at: atAcc,
+        distance: '',
         type: 'stop',
       })
       if (directions?.routes[0].legs[index]) {
@@ -70,6 +79,7 @@ export const Timeline = () => {
         valuesToSet.push({
           name: places[index + 1].name,
           at: atAcc,
+          distance: leg.distance!.text,
           type: 'move',
         })
       }
@@ -85,7 +95,7 @@ export const Timeline = () => {
         domain={domain}
         rootStyle={sliderStyle}
         // onUpdate={this.onUpdate}
-        // onChange={this.onChange}
+        onChange={onChange}
         values={values.map(h => h.at)}
       >
         <Rail>
@@ -100,6 +110,7 @@ export const Timeline = () => {
                   handle={handle}
                   domain={domain}
                   getHandleProps={getHandleProps}
+                  disabled={firstOrLast(index, values.length)}
                 />
               ))}
             </div>
@@ -114,7 +125,7 @@ export const Timeline = () => {
                   source={source}
                   target={target}
                   getTrackProps={getTrackProps}
-                  disabled={values[index].type === 'move'}
+                  disabled={values[index].type === 'stop'}
                   item={values[index]}
                 />
               ))}
