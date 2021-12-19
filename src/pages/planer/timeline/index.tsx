@@ -1,4 +1,6 @@
+import {useEffect, useState} from 'react'
 import {Slider, Rail, Handles, Tracks, Ticks} from 'react-compound-slider'
+import {usePlaner} from '../hooks/use-planer'
 import {SliderRail, Handle, Track, Tick} from './components'
 
 const sliderStyle = {
@@ -6,7 +8,6 @@ const sliderStyle = {
   width: '100%',
 }
 
-const domain = [100, 500]
 const defaultValues = [
   {name: 'place 1', at: 100, type: 'stop'},
   {name: 'moving', at: 200, type: 'move'},
@@ -15,8 +16,65 @@ const defaultValues = [
   {name: 'place 2', at: 350, type: 'stop'},
 ]
 
+interface timelineHandle {
+  name: string
+  type: string
+  at: number
+}
+
 export const Timeline = () => {
-  const values = defaultValues.map(v => v.at)
+  // from context
+  const {places, directions} = usePlaner()
+  // slider variables
+  const [domain, setDomain] = useState<number[]>([0, 500])
+  const [values, setValues] = useState<timelineHandle[]>([])
+  // const values = defaultValues.map(v => v.at)
+  // const {places, isPlacesLoading} = usePlaces(travel)
+  // const {directions, setDirections} = useDirections()
+
+  useEffect(() => {
+    // dont execute if directions is not loaded
+    if (!(places && directions)) return
+    // places and legs does not match
+    if (places.length !== directions.routes[0].legs.length + 1) return
+
+    console.log('update timeline')
+
+    console.log(places)
+    console.log(directions)
+
+    // set domain
+    const stopTime = 8 * 3600
+    const totalStopTime = stopTime * directions?.routes[0].legs.length
+    let totalTripDuration = totalStopTime
+    for (const leg of directions!.routes[0].legs) {
+      totalTripDuration += leg.duration?.value as number
+    }
+    const domainToSet = [0, totalTripDuration]
+    setDomain(domainToSet)
+
+    // set handles
+    const valuesToSet: timelineHandle[] = []
+    let atAcc = 0
+    places.forEach((place, index, places) => {
+      if (index > 0) atAcc += stopTime
+      valuesToSet.push({
+        name: '',
+        at: atAcc,
+        type: 'stop',
+      })
+      if (directions?.routes[0].legs[index]) {
+        const leg = directions?.routes[0].legs[index]
+        atAcc += leg.duration?.value as number
+        valuesToSet.push({
+          name: places[index + 1].name,
+          at: atAcc,
+          type: 'move',
+        })
+      }
+    })
+    setValues(valuesToSet)
+  }, [directions, places])
 
   return (
     <div style={{margin: '10%', height: 120, width: '80%'}}>
@@ -27,7 +85,7 @@ export const Timeline = () => {
         rootStyle={sliderStyle}
         // onUpdate={this.onUpdate}
         // onChange={this.onChange}
-        values={values}
+        values={values.map(h => h.at)}
       >
         <Rail>
           {({getRailProps}) => <SliderRail getRailProps={getRailProps} />}
@@ -55,8 +113,8 @@ export const Timeline = () => {
                   source={source}
                   target={target}
                   getTrackProps={getTrackProps}
-                  disabled={defaultValues[index].type === 'move'}
-                  item={defaultValues[index]}
+                  disabled={values[index].type === 'move'}
+                  item={values[index]}
                 />
               ))}
             </div>
