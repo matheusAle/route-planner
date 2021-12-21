@@ -4,7 +4,11 @@ import {usePlaner} from '../hooks/use-planer'
 import {SliderRail, Handle, Track, Tick} from './components'
 
 import {timelinePoint} from './types'
-import {isHandleDisabled} from './helpers'
+import {
+  isHandleDisabled,
+  timelinePointStopFactory,
+  timelinePointMoveFactory,
+} from './helpers'
 
 const sliderStyle = {
   position: 'relative',
@@ -64,27 +68,21 @@ export const Timeline = () => {
     // set handles
     const valuesToSet: Array<timelinePoint> = []
     let atAcc = 0
-    const stopTime = 8 * 3600
+    let stopTime = 8 * 3600
     const legs = directions.routes[0].legs
     legs.forEach((leg, index) => {
-      valuesToSet.push({
-        type: 'stop',
-        name: '',
-        at: atAcc,
-        distance: leg?.distance?.text || '',
-        duration: leg?.duration?.value || 0,
-      })
+      const stopPoint = timelinePointStopFactory(atAcc, leg)
+      valuesToSet.push(stopPoint)
       atAcc += leg?.duration?.value || 0
       if (places[index + 1]) {
         const place = places[index + 1]
         const lastPlace = index + 2 == places.length
-        const placeToPush: timelinePoint = {
-          type: 'move',
-          name: place.name,
-          at: atAcc,
-          distance: '',
-          duration: lastPlace ? 0 : stopTime,
-        }
+        stopTime = lastPlace ? 0 : stopTime
+        const placeToPush = timelinePointMoveFactory(
+          place.name,
+          atAcc,
+          stopTime,
+        )
         valuesToSet.push(placeToPush)
         atAcc += placeToPush.duration
       }
