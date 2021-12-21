@@ -3,6 +3,8 @@ import {Slider, Rail, Handles, Tracks, Ticks} from 'react-compound-slider'
 import {usePlaner} from '../hooks/use-planer'
 import {SliderRail, Handle, Track, Tick} from './components'
 
+import {timelinePoint} from './types'
+
 const sliderStyle = {
   position: 'relative',
   width: '100%',
@@ -11,14 +13,6 @@ const sliderStyle = {
 
 const isHandleDisabled = (index: number, length: number): boolean => {
   return index === 0 || index % 2 === 1 || index + 1 === length
-}
-
-interface timelinePoint {
-  type: 'stop' | 'move'
-  name: string
-  at: number
-  distance: string
-  duration: number
 }
 
 export const Timeline = () => {
@@ -56,7 +50,7 @@ export const Timeline = () => {
 
     // reset "at" for each handler based on "duration" attributes
     let atAcc = 0
-    valuesToSet.forEach((value, index) => {
+    valuesToSet.forEach(value => {
       value.at = atAcc
       atAcc += value.duration
     })
