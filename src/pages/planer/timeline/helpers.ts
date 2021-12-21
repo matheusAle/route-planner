@@ -1,10 +1,11 @@
+import {Place} from '@/common/types/place'
 import {timelinePoint} from './types'
 
 export const isHandleDisabled = (index: number, length: number): boolean => {
   return index === 0 || index % 2 === 1 || index + 1 === length
 }
 
-export const timelinePointStopFactory = (
+export const parseLegToTimelinePoint = (
   at: number,
   leg: google.maps.DirectionsLeg,
 ): timelinePoint => ({
@@ -15,14 +16,16 @@ export const timelinePointStopFactory = (
   duration: leg?.duration?.value || 0,
 })
 
-export const timelinePointMoveFactory = (
-  name: string,
+export const parsePlaceToTimelinePoint = (
+  place: Place,
   at: number,
-  duration: number,
-): timelinePoint => ({
-  type: 'move',
-  name,
-  at,
-  distance: '',
-  duration,
-})
+  stopTime: number,
+): timelinePoint => {
+  return {
+    type: 'move',
+    name: place.name,
+    at,
+    distance: '',
+    duration: stopTime,
+  }
+}

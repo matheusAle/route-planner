@@ -6,8 +6,8 @@ import {SliderRail, Handle, Track, Tick} from './components'
 import {timelinePoint} from './types'
 import {
   isHandleDisabled,
-  timelinePointStopFactory,
-  timelinePointMoveFactory,
+  parseLegToTimelinePoint,
+  parsePlaceToTimelinePoint,
 } from './helpers'
 
 const sliderStyle = {
@@ -69,20 +69,15 @@ export const Timeline = () => {
     let stopTime = 8 * 3600
     const [{legs}] = directions.routes
     legs.forEach((leg, index) => {
-      const stopPoint = timelinePointStopFactory(atAcc, leg)
+      const stopPoint = parseLegToTimelinePoint(atAcc, leg)
       valuesToSet.push(stopPoint)
       atAcc += leg?.duration?.value || 0
       if (places[index + 1]) {
-        const place = places[index + 1]
-        const lastPlace = index + 2 == places.length
-        stopTime = lastPlace ? 0 : stopTime
-        const placeToPush = timelinePointMoveFactory(
-          place.name,
-          atAcc,
-          stopTime,
-        )
-        valuesToSet.push(placeToPush)
+        const place = places[index]
+        stopTime = index + 2 == places.length ? 0 : stopTime
+        const placeToPush = parsePlaceToTimelinePoint(place, atAcc, stopTime)
         atAcc += placeToPush.duration
+        valuesToSet.push(placeToPush)
       }
     })
     setValues(valuesToSet)
