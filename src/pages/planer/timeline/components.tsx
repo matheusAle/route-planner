@@ -176,7 +176,7 @@ export function Track({source, target, getTrackProps, disabled, item}: any) {
 // *******************************************************
 // TICK COMPONENT
 // *******************************************************
-export function Tick({tick, count, format, item}: any) {
+export function Tick({tick, count, item}: any) {
   return (
     <div>
       <div
