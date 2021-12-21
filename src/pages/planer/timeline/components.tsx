@@ -166,7 +166,9 @@ export function Track({source, target, getTrackProps, disabled, item}: any) {
       }}
       {...getTrackProps()}
     >
-      {item?.name || item?.distance}
+      {item.name || item.distance}
+      <br />
+      {item.duration > 0 ? `${(item?.duration / 3600).toFixed(0)} hours` : ''}
     </div>
   )
 }
@@ -180,7 +182,7 @@ export function Tick({tick, count, format, item}: any) {
       <div
         style={{
           position: 'absolute',
-          marginTop: 14,
+          marginTop: 32,
           width: 1,
           height: 5,
           backgroundColor: 'rgb(200,200,200)',
@@ -190,7 +192,7 @@ export function Tick({tick, count, format, item}: any) {
       <div
         style={{
           position: 'absolute',
-          marginTop: 22,
+          marginTop: 38,
           fontSize: 10,
           textAlign: 'center',
           marginLeft: `${-(100 / count) / 2}%`,
@@ -198,7 +200,7 @@ export function Tick({tick, count, format, item}: any) {
           left: `${tick.percent}%`,
         }}
       >
-        {tick.value} {item?.name}
+        {item?.name}
       </div>
     </div>
   )

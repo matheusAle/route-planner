@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import {Slider, Rail, Handles, Tracks, Ticks} from 'react-compound-slider'
 import {usePlaner} from '../hooks/use-planer'
 import {SliderRail, Handle, Track, Tick} from './components'
+import moment from 'moment'
 
 const sliderStyle = {
   position: 'relative',
@@ -21,11 +22,12 @@ const isHandleDisabled = (index: number, length: number): boolean => {
   return index === 0 || index % 2 === 1 || index + 1 === length
 }
 
-interface timelineHandle {
+interface timelinePoint {
+  type: 'stop' | 'move'
   name: string
-  type: string
-  distance: string
   at: number
+  distance: string
+  duration: number
 }
 
 export const Timeline = () => {
@@ -34,7 +36,7 @@ export const Timeline = () => {
 
   // slider variables
   const [domain, setDomain] = useState<number[]>([0, 500])
-  const [values, setValues] = useState<timelineHandle[]>([])
+  const [values, setValues] = useState<timelinePoint[]>([])
 
   // on slider value changed
   const onChange = (values: readonly number[]) => {
@@ -54,7 +56,7 @@ export const Timeline = () => {
 
     // set domain
     const stopTime = 8 * 3600
-    const totalStopTime = stopTime * directions?.routes[0].legs.length
+    const totalStopTime = stopTime * (directions?.routes[0].legs.length - 1)
     let totalTripDuration = totalStopTime
     for (const leg of directions!.routes[0].legs) {
       totalTripDuration += leg.duration?.value as number
@@ -63,19 +65,19 @@ export const Timeline = () => {
     setDomain(domainToSet)
 
     // set handles
-    const valuesToSet: timelineHandle[] = []
+    const valuesToSet: Array<timelinePoint> = []
     let atAcc = 0
     let leg = null
     places.forEach((place, index, places) => {
-      if (index > 0) atAcc += stopTime
+      if (index > 0 && index + 1 < places.length) atAcc += stopTime
       leg = directions?.routes[0].legs[index]
       console.log(leg)
       valuesToSet.push({
+        type: 'stop',
         name: '',
         at: atAcc,
         distance: leg ? leg.distance!.text : '',
-        // distance: leg.distance!.text,
-        type: 'stop',
+        duration: leg ? leg.duration!.value : 0,
       })
       if (directions?.routes[0].legs[index]) {
         atAcc += leg.duration?.value as number
@@ -83,6 +85,7 @@ export const Timeline = () => {
           name: places[index + 1].name,
           at: atAcc,
           distance: '',
+          duration: index + 2 < places.length ? stopTime : 0,
           type: 'move',
         })
       }
@@ -93,18 +96,21 @@ export const Timeline = () => {
 
   return (
     <div style={{margin: '10%', height: 120, width: '80%'}}>
+      <h3 style={{paddingBottom: '20px'}}>
+        Total traveling time: {(domain[1] / 3600).toFixed(0)} hours
+      </h3>
       <Slider
         mode={3}
         step={3}
         domain={domain}
         rootStyle={sliderStyle}
-        // onUpdate={this.onUpdate}
         onChange={onChange}
         values={values.map(h => h.at)}
       >
         <Rail>
           {({getRailProps}) => <SliderRail getRailProps={getRailProps} />}
         </Rail>
+
         <Handles>
           {({handles, getHandleProps}) => (
             <div className="slider-handles">
@@ -120,6 +126,7 @@ export const Timeline = () => {
             </div>
           )}
         </Handles>
+
         <Tracks left={false} right={false}>
           {({tracks, getTrackProps}) => (
             <div className="slider-tracks">
@@ -136,12 +143,23 @@ export const Timeline = () => {
             </div>
           )}
         </Tracks>
-        <Ticks count={5}>
+
+        <Ticks count={16}>
           {({ticks}) => (
             <div className="slider-ticks">
-              {ticks.map((tick, index) => (
-                <Tick key={tick.id} tick={tick} count={ticks.length} />
-              ))}
+              {ticks.map((tick, index) => {
+                const item: {name: string} = {
+                  name: `${(tick.value / 3600).toFixed(0)} h`,
+                }
+                return (
+                  <Tick
+                    key={tick.id}
+                    tick={tick}
+                    item={item}
+                    count={ticks.length}
+                  />
+                )
+              })}
             </div>
           )}
         </Ticks>
