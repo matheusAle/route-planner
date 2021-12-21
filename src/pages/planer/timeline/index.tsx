@@ -17,8 +17,8 @@ const defaultValues = [
   {name: 'place 2', at: 350, type: 'stop'},
 ]
 
-const firstOrLast = (index: number, length: number): boolean => {
-  return index === 0 || index + 1 === length
+const isHandleDisabled = (index: number, length: number): boolean => {
+  return index === 0 || index % 2 === 1 || index + 1 === length
 }
 
 interface timelineHandle {
@@ -114,7 +114,7 @@ export const Timeline = () => {
                   handle={handle}
                   domain={domain}
                   getHandleProps={getHandleProps}
-                  disabled={firstOrLast(index, values.length)}
+                  disabled={isHandleDisabled(index, values.length)}
                 />
               ))}
             </div>
