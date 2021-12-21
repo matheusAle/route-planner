@@ -1,4 +1,4 @@
-import {useCallback, useMemo, useState} from 'react'
+import {useCallback, useMemo} from 'react'
 import {usePlaner} from '../hooks/use-planer'
 
 export const useDirections = () => {
@@ -31,7 +31,7 @@ export const useDirections = () => {
       }
       setDirections(result)
     },
-    [],
+    [setDirections],
   )
 
   return {
