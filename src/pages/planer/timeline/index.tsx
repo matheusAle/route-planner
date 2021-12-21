@@ -39,8 +39,15 @@ export const Timeline = () => {
   const [values, setValues] = useState<timelinePoint[]>([])
 
   // on slider value changed
-  const onChange = (values: readonly number[]) => {
-    console.log(values)
+  const onChange = (newValues: readonly number[]) => {
+    const valuesToSet = [...values]
+    valuesToSet.forEach((value, index) => {
+      const formValue = newValues[index]
+      if (value.type === 'stop' && value.at !== formValue) {
+        value.at = formValue
+      }
+    })
+    setValues(valuesToSet)
     //
   }
 
