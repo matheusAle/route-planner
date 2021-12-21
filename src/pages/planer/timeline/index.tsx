@@ -39,18 +39,20 @@ export const Timeline = () => {
   const [values, setValues] = useState<timelinePoint[]>([])
 
   // on slider value changed
-  const onChange = (newValues: readonly number[]) => {
-    const valuesToSet = [...values]
-    valuesToSet.forEach((value, index) => {
-      const formValue = newValues[index]
-      if (value.type === 'stop' && value.at !== formValue) {
-        value.at = formValue
-      }
-    })
-    setValues(valuesToSet)
-    //
-  }
+  // const onChange = (newValues: readonly number[]) => {
+  //   console.log('on change')
+  //   const valuesToSet = [...values]
+  //   valuesToSet.forEach((value, index) => {
+  //     const formValue = newValues[index]
+  //     if (value.type === 'stop' && value.at !== formValue) {
+  //       value.at = formValue
+  //     }
+  //   })
+  //   setValues(valuesToSet)
+  //   //
+  // }
 
+  // to set values (handles, etc.)
   useEffect(() => {
     // do NOT execute if directions data is not loaded
     if (!(places && directions)) return
@@ -58,27 +60,19 @@ export const Timeline = () => {
     // do NOT execute if places and legs don't not match
     if (places.length !== directions.routes[0].legs.length + 1) return
 
+    console.log('use effect - places and direction')
+
     console.log(places)
     console.log(directions)
-
-    // set domain
-    const stopTime = 8 * 3600
-    const totalStopTime = stopTime * (directions?.routes[0].legs.length - 1)
-    let totalTripDuration = totalStopTime
-    for (const leg of directions!.routes[0].legs) {
-      totalTripDuration += leg.duration?.value as number
-    }
-    const domainToSet = [0, totalTripDuration]
-    setDomain(domainToSet)
 
     // set handles
     const valuesToSet: Array<timelinePoint> = []
     let atAcc = 0
     let leg = null
+    const stopTime = 8 * 3600
     places.forEach((place, index, places) => {
       if (index > 0 && index + 1 < places.length) atAcc += stopTime
       leg = directions?.routes[0].legs[index]
-      console.log(leg)
       valuesToSet.push({
         type: 'stop',
         name: '',
@@ -97,9 +91,21 @@ export const Timeline = () => {
         })
       }
     })
-    console.log(valuesToSet)
     setValues(valuesToSet)
   }, [directions, places])
+
+  // set domain
+  useEffect(() => {
+    console.log('use effect - values')
+    let maxDomainValue = 0
+    for (const val of values) {
+      maxDomainValue += val.duration
+    }
+    if (maxDomainValue != domain[1]) {
+      console.log(maxDomainValue)
+      setDomain([0, maxDomainValue])
+    }
+  }, [values])
 
   return (
     <div style={{margin: '10%', height: 120, width: '80%'}}>
@@ -111,7 +117,7 @@ export const Timeline = () => {
         step={3}
         domain={domain}
         rootStyle={sliderStyle}
-        onChange={onChange}
+        // onChange={onChange}
         values={values.map(h => h.at)}
       >
         <Rail>
