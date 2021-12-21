@@ -69,7 +69,7 @@ export const Timeline = () => {
     const valuesToSet: Array<timelinePoint> = []
     let atAcc = 0
     let stopTime = 8 * 3600
-    const legs = directions.routes[0].legs
+    const [{legs}] = directions.routes
     legs.forEach((leg, index) => {
       const stopPoint = timelinePointStopFactory(atAcc, leg)
       valuesToSet.push(stopPoint)
