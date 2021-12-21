@@ -2,21 +2,12 @@ import {useEffect, useState} from 'react'
 import {Slider, Rail, Handles, Tracks, Ticks} from 'react-compound-slider'
 import {usePlaner} from '../hooks/use-planer'
 import {SliderRail, Handle, Track, Tick} from './components'
-import moment from 'moment'
 
 const sliderStyle = {
   position: 'relative',
   width: '100%',
   zIndex: 0,
 }
-
-const defaultValues = [
-  {name: 'place 1', at: 100, type: 'stop'},
-  {name: 'moving', at: 200, type: 'move'},
-  {name: 'place 2', at: 250, type: 'stop'},
-  {name: 'moving', at: 400, type: 'move'},
-  {name: 'place 2', at: 350, type: 'stop'},
-]
 
 const isHandleDisabled = (index: number, length: number): boolean => {
   return index === 0 || index % 2 === 1 || index + 1 === length
@@ -39,18 +30,29 @@ export const Timeline = () => {
   const [values, setValues] = useState<timelinePoint[]>([])
 
   // on slider value changed
-  // const onChange = (newValues: readonly number[]) => {
-  //   console.log('on change')
-  //   const valuesToSet = [...values]
-  //   valuesToSet.forEach((value, index) => {
-  //     const formValue = newValues[index]
-  //     if (value.type === 'stop' && value.at !== formValue) {
-  //       value.at = formValue
-  //     }
-  //   })
-  //   setValues(valuesToSet)
-  //   //
-  // }
+  const onChange = (newValues: readonly number[]) => {
+    return
+    const valuesToSet = [...values]
+    console.log(valuesToSet)
+    let acc = 0
+    valuesToSet.forEach((value, index) => {
+      const formValue = newValues[index]
+      if (value.type === 'stop' && value.at !== formValue) {
+        const diff = formValue - value.at
+        if (diff != 1 && diff != -1) {
+          acc = diff
+          console.log(
+            `Changed index ${index} from ${value.at} to ${formValue} = ${diff}`,
+          )
+        }
+        if (value.type === 'stop') {
+          value.at += acc
+        }
+      }
+    })
+    setValues(valuesToSet)
+    //
+  }
 
   // to set values (handles, etc.)
   useEffect(() => {
@@ -68,43 +70,43 @@ export const Timeline = () => {
     // set handles
     const valuesToSet: Array<timelinePoint> = []
     let atAcc = 0
-    let leg = null
     const stopTime = 8 * 3600
-    places.forEach((place, index, places) => {
-      if (index > 0 && index + 1 < places.length) atAcc += stopTime
-      leg = directions?.routes[0].legs[index]
+    const legs = directions.routes[0].legs
+    legs.forEach((leg, index) => {
       valuesToSet.push({
         type: 'stop',
         name: '',
         at: atAcc,
-        distance: leg ? leg.distance!.text : '',
-        duration: leg ? leg.duration!.value : 0,
+        distance: leg?.distance?.text || '',
+        duration: leg?.duration?.value || 0,
       })
-      if (directions?.routes[0].legs[index]) {
-        atAcc += leg.duration?.value as number
+      atAcc += leg?.duration?.value || 0
+      if (places[index + 1]) {
+        const place = places[index + 1]
+        const lastPlace = index + 2 == places.length
         valuesToSet.push({
-          name: places[index + 1].name,
+          type: 'move',
+          name: place.name,
           at: atAcc,
           distance: '',
-          duration: index + 2 < places.length ? stopTime : 0,
-          type: 'move',
+          duration: lastPlace ? 0 : stopTime,
         })
+        atAcc += stopTime
       }
     })
+    console.log(valuesToSet)
     setValues(valuesToSet)
   }, [directions, places])
 
   // set domain
   useEffect(() => {
-    console.log('use effect - values')
+    console.log('update domain')
+    if (!values.length) return
     let maxDomainValue = 0
     for (const val of values) {
       maxDomainValue += val.duration
     }
-    if (maxDomainValue != domain[1]) {
-      console.log(maxDomainValue)
-      setDomain([0, maxDomainValue])
-    }
+    setDomain([0, maxDomainValue])
   }, [values])
 
   return (
@@ -117,7 +119,7 @@ export const Timeline = () => {
         step={3}
         domain={domain}
         rootStyle={sliderStyle}
-        // onChange={onChange}
+        onChange={onChange}
         values={values.map(h => h.at)}
       >
         <Rail>
@@ -160,7 +162,7 @@ export const Timeline = () => {
         <Ticks count={16}>
           {({ticks}) => (
             <div className="slider-ticks">
-              {ticks.map((tick, index) => {
+              {ticks.map(tick => {
                 const item: {name: string} = {
                   name: `${(tick.value / 3600).toFixed(0)} h`,
                 }
