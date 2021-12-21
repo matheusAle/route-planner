@@ -13,9 +13,9 @@ const containerStyle = {
 }
 
 export const Maps = () => {
-  const {selectedPlace} = usePlaner()
+  const {selectedPlace, directions} = usePlaner()
   const [, setMap] = React.useState<google.maps.Map | null>(null)
-  const {directions, setDirections, directionsRequest} = useDirections()
+  const {directionsRequest, directionsRequestCallback} = useDirections()
 
   const onLoad = React.useCallback(mapLoad => {
     const bounds = new window.google.maps.LatLngBounds()
@@ -39,7 +39,7 @@ export const Maps = () => {
       {directionsRequest && (
         <DirectionsService
           options={directionsRequest}
-          callback={setDirections}
+          callback={directionsRequestCallback}
         />
       )}
       {directions && (

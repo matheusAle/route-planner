@@ -1,9 +1,8 @@
-import {useCallback, useMemo, useState} from 'react'
+import {useCallback, useMemo} from 'react'
 import {usePlaner} from '../hooks/use-planer'
 
 export const useDirections = () => {
-  const {places} = usePlaner()
-  const [directions, setDirections] = useState<google.maps.DirectionsResult>()
+  const {places, setDirections} = usePlaner()
 
   const directionsRequest = useMemo<
     google.maps.DirectionsRequest | undefined
@@ -22,7 +21,7 @@ export const useDirections = () => {
     }
   }, [places])
 
-  const requestCallback = useCallback(
+  const directionsRequestCallback = useCallback(
     (
       result: google.maps.DirectionsResult | null,
       status: google.maps.DirectionsStatus,
@@ -32,12 +31,11 @@ export const useDirections = () => {
       }
       setDirections(result)
     },
-    [],
+    [setDirections],
   )
 
   return {
     directionsRequest,
-    directions,
-    setDirections: requestCallback,
+    directionsRequestCallback,
   }
 }
