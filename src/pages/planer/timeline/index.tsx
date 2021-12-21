@@ -26,45 +26,42 @@ export const Timeline = () => {
   const {places, directions} = usePlaner()
 
   // slider variables
-  const [domain, setDomain] = useState<number[]>([0, 500])
+  const [domain, setDomain] = useState<{min: number; max: number}>({
+    min: 0,
+    max: 500,
+  })
   const [values, setValues] = useState<timelinePoint[]>([])
+  const [ready, setReady] = useState<boolean>(false)
 
   // on slider value changed
   const onChange = (newValues: readonly number[]) => {
+    if (!ready) return
     const valuesToSet = [...values]
-    console.log(valuesToSet)
-    let acc = 0
     valuesToSet.forEach((value, index) => {
       const formValue = newValues[index]
       if (value.type === 'stop' && value.at !== formValue) {
         const diff = formValue - value.at
         if (diff != 1 && diff != -1) {
-          acc = diff
-          console.log(
-            `Changed index ${index} from ${value.at} to ${formValue} = ${diff}`,
-          )
-        }
-        if (value.type === 'stop') {
-          value.at += acc
+          if (valuesToSet[index - 1]?.duration) {
+            valuesToSet[index - 1].duration += diff
+          }
         }
       }
     })
+    let atAcc = 0
+    valuesToSet.forEach((value, index) => {
+      value.at = atAcc
+      atAcc += value.duration
+    })
     setValues(valuesToSet)
-    //
   }
 
   // to set values (handles, etc.)
   useEffect(() => {
     // do NOT execute if directions data is not loaded
     if (!(places && directions)) return
-
     // do NOT execute if places and legs don't not match
     if (places.length !== directions.routes[0].legs.length + 1) return
-
-    console.log('use effect - places and direction')
-
-    console.log(places)
-    console.log(directions)
 
     // set handles
     const valuesToSet: Array<timelinePoint> = []
@@ -83,40 +80,45 @@ export const Timeline = () => {
       if (places[index + 1]) {
         const place = places[index + 1]
         const lastPlace = index + 2 == places.length
-        valuesToSet.push({
+        const placeToPush: timelinePoint = {
           type: 'move',
           name: place.name,
           at: atAcc,
           distance: '',
           duration: lastPlace ? 0 : stopTime,
-        })
-        atAcc += stopTime
+        }
+        valuesToSet.push(placeToPush)
+        atAcc += placeToPush.duration
       }
     })
-    console.log(valuesToSet)
     setValues(valuesToSet)
   }, [directions, places])
 
   // set domain
   useEffect(() => {
-    console.log('update domain')
     if (!values.length) return
-    let maxDomainValue = 0
-    for (const val of values) {
-      maxDomainValue += val.duration
-    }
-    setDomain([0, maxDomainValue])
+    // let maxDomainValue = 0
+    // for (const val of values) {
+    //   maxDomainValue += val.duration
+    // }
+    const maxDomainValue = values.reduce<number>(
+      (acc, curr) => (acc += curr.duration),
+      0,
+    )
+    const domainToSet = {min: 0, max: maxDomainValue}
+    setDomain(domainToSet)
+    setReady(true)
   }, [values])
 
   return (
     <div style={{margin: '10%', height: 120, width: '80%'}}>
       <h3 style={{paddingBottom: '20px'}}>
-        Total traveling time: {(domain[1] / 3600).toFixed(0)} hours
+        Total traveling time: {(domain.max / 3600).toFixed(0)} hours
       </h3>
       <Slider
         mode={3}
         step={3}
-        domain={domain}
+        domain={[domain.min, domain.max]}
         rootStyle={sliderStyle}
         onChange={onChange}
         values={values.map(h => h.at)}
@@ -132,7 +134,7 @@ export const Timeline = () => {
                 <Handle
                   key={handle.id}
                   handle={handle}
-                  domain={domain}
+                  domain={[domain.min, domain.max]}
                   getHandleProps={getHandleProps}
                   disabled={isHandleDisabled(index, values.length)}
                 />
