@@ -4,15 +4,12 @@ import {usePlaner} from '../hooks/use-planer'
 import {SliderRail, Handle, Track, Tick} from './components'
 
 import {timelinePoint} from './types'
+import {isHandleDisabled} from './helpers'
 
 const sliderStyle = {
   position: 'relative',
   width: '100%',
   zIndex: 0,
-}
-
-const isHandleDisabled = (index: number, length: number): boolean => {
-  return index === 0 || index % 2 === 1 || index + 1 === length
 }
 
 export const Timeline = () => {
