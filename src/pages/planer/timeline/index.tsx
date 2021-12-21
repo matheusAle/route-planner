@@ -31,22 +31,22 @@ interface timelineHandle {
 export const Timeline = () => {
   // from context
   const {places, directions} = usePlaner()
+
   // slider variables
   const [domain, setDomain] = useState<number[]>([0, 500])
   const [values, setValues] = useState<timelineHandle[]>([])
-  // const values = defaultValues.map(v => v.at)
-  // const {places, isPlacesLoading} = usePlaces(travel)
-  // const {directions, setDirections} = useDirections()
 
+  // on slider value changed
   const onChange = (values: readonly number[]) => {
     console.log(values)
     //
   }
 
   useEffect(() => {
-    // dont execute if directions is not loaded
+    // do NOT execute if directions data is not loaded
     if (!(places && directions)) return
-    // places and legs does not match
+
+    // do NOT execute if places and legs don't not match
     if (places.length !== directions.routes[0].legs.length + 1) return
 
     console.log(places)
