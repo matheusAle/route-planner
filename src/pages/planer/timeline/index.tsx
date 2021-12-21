@@ -31,11 +31,16 @@ export const Timeline = () => {
     max: 500,
   })
   const [values, setValues] = useState<timelinePoint[]>([])
+
+  // make sure all values are present for the 1st time (avoid loop =\ )
   const [ready, setReady] = useState<boolean>(false)
 
   // on slider value changed
   const onChange = (newValues: readonly number[]) => {
+    // check if component is ready
     if (!ready) return
+
+    // check which handler was changed
     const valuesToSet = [...values]
     valuesToSet.forEach((value, index) => {
       const formValue = newValues[index]
@@ -48,6 +53,8 @@ export const Timeline = () => {
         }
       }
     })
+
+    // reset "at" for each handler based on "duration" attributes
     let atAcc = 0
     valuesToSet.forEach((value, index) => {
       value.at = atAcc
@@ -96,17 +103,20 @@ export const Timeline = () => {
 
   // set domain
   useEffect(() => {
+    // do not set domain for no values
     if (!values.length) return
-    // let maxDomainValue = 0
-    // for (const val of values) {
-    //   maxDomainValue += val.duration
-    // }
+
+    // go ahead!
     const maxDomainValue = values.reduce<number>(
       (acc, curr) => (acc += curr.duration),
       0,
     )
     const domainToSet = {min: 0, max: maxDomainValue}
+
+    // set domain
     setDomain(domainToSet)
+
+    // component is ready
     setReady(true)
   }, [values])
 
