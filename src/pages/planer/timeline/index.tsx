@@ -61,9 +61,7 @@ export const Timeline = () => {
   // to set values (handles, etc.)
   useEffect(() => {
     // do NOT execute if directions data is not loaded
-    if (!(places && directions)) return
-    // do NOT execute if places and legs don't not match
-    if (places.length !== directions.routes[0].legs.length + 1) return
+    if (!places.length || !directions?.routes?.length) return
 
     // set handles
     const valuesToSet: Array<timelinePoint> = []
