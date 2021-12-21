@@ -31,7 +31,6 @@ export const Timeline = () => {
 
   // on slider value changed
   const onChange = (newValues: readonly number[]) => {
-    return
     const valuesToSet = [...values]
     console.log(valuesToSet)
     let acc = 0
