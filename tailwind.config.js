@@ -19,6 +19,9 @@ module.exports = {
       gridTemplateColumns: {
         shell: '560px 1fr',
       },
+      gridTemplateRows: {
+        shell: '1fr 120px',
+      },
     },
   },
   variants: {

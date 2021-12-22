@@ -29,15 +29,17 @@ export const PlanerPage = () => {
       setDirections={setDirections}
     >
       <ScreenLayout.Desktop>
-        <Timeline />
-        <div className="grid grid-cols-shell h-screen">
-          <div className="card">
-            <div className="card-body">
-              <Travel />
-              <Places />
+        <div className="grid grid-rows-shell h-screen">
+          <div className="grid grid-cols-shell">
+            <div className="card">
+              <div className="card-body">
+                <Travel />
+                <Places />
+              </div>
             </div>
+            <Maps />
           </div>
-          <Maps />
+          <Timeline />
         </div>
       </ScreenLayout.Desktop>
       <ScreenLayout.NotAnDesktop>

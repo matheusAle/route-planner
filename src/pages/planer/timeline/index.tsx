@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react'
 import {Slider, Rail, Handles, Tracks, Ticks} from 'react-compound-slider'
 import {usePlaner} from '../hooks/use-planer'
-import {SliderRail, Handle, Track, Tick} from './components'
 
 import {timelinePoint} from './types'
 import {
@@ -10,6 +9,10 @@ import {
   parseLegToTimelinePoint,
   parsePlaceToTimelinePoint,
 } from './helpers'
+import {Track} from './common/track'
+import {SliderRail} from './common/slider-rail'
+import {Handle} from './common/handle'
+import {Tick} from './common/tick'
 
 const sliderStyle = {
   position: 'relative',
@@ -85,7 +88,7 @@ export const Timeline = () => {
   }, [values])
 
   return (
-    <div style={{margin: '10%', height: 120, width: '80%'}}>
+    <div className="w-100">
       <h3 style={{paddingBottom: '20px'}}>
         Total traveling time: {(domain.max / 3600).toFixed(0)} hours
       </h3>
@@ -120,14 +123,13 @@ export const Timeline = () => {
         <Tracks left={false} right={false}>
           {({tracks, getTrackProps}) => (
             <div className="slider-tracks">
-              {tracks.map(({id, source, target}, index) => (
+              {tracks.map((track, index) => (
                 <Track
-                  key={id}
-                  source={source}
-                  target={target}
+                  key={track.id}
+                  trackItem={track}
                   getTrackProps={getTrackProps}
                   disabled={values[index].type === 'stop'}
-                  item={values[index]}
+                  point={values[index]}
                 />
               ))}
             </div>
