@@ -1,8 +1,8 @@
-import {VirtualList} from '@/common/components/virtual-list'
+import {VirtualList} from 'common/components/virtual-list'
 import {PlaceCard} from '../common/place-card'
 import {usePlaner} from '../hooks/use-planer'
 import {useUpdatePlace} from '../hooks/use-update-place'
-import {ReactComponent as DestinationIlistration} from '@/assets/img/destinations.svg'
+import {ReactComponent as DestinationIlistration} from 'assets/img/destinations.svg'
 import {Search} from '../common/search'
 
 export const Places = () => {

@@ -1,4 +1,4 @@
-import {Place} from '@/common/types/place'
+import {Place} from 'common/types/place'
 import {timelinePoint} from './types'
 
 export const isHandleDisabled = (index: number, length: number): boolean => {

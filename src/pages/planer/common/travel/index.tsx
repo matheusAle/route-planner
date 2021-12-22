@@ -1,4 +1,4 @@
-import {DatePicker, DateSlice} from '@/common/components/date-picker'
+import {DatePicker, DateSlice} from 'common/components/date-picker'
 import {usePlaner} from '../../hooks/use-planer'
 import {useUpdateTravel} from '../../hooks/use-update-travel'
 

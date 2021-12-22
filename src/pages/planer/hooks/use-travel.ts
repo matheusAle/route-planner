@@ -1,7 +1,7 @@
-import {createRef, Col, onSnapshot} from '@/common/firebase/firestore'
-import {useData} from '@/common/hooks/use-data'
-import {useUser} from '@/common/hooks/use-user'
-import {Travel} from '@/common/types/travel'
+import {createRef, Col, onSnapshot} from 'common/firebase/firestore'
+import {useData} from 'common/hooks/use-data'
+import {useUser} from 'common/hooks/use-user'
+import {Travel} from 'common/types/travel'
 import {useEffect} from 'react'
 import {useParams} from 'react-router'
 

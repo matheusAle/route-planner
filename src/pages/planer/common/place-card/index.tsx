@@ -1,6 +1,6 @@
 import React from 'react'
-import {Place} from '@/common/types/place'
-// import {usePlacesMutation} from '@/common/hooks/use-places-mutation'
+import {Place} from 'common/types/place'
+// import {usePlacesMutation} from 'common/hooks/use-places-mutation'
 import {FaTrash} from 'react-icons/fa'
 import {useDeletePlace} from '../../hooks/use-delete-place'
 

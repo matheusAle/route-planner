@@ -1,5 +1,5 @@
-import {Modal} from '@/common/components/modal'
-import {cn} from '@/common/utils/classnames'
+import {Modal} from 'common/components/modal'
+import {cn} from 'common/utils/classnames'
 import {PropsWithChildren} from 'react'
 import {MdChevronLeft} from 'react-icons/md'
 import {usePlaner} from '../../hooks/use-planer'

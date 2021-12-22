@@ -1,7 +1,7 @@
 import {useRef} from 'react'
 import {StandaloneSearchBox} from '@react-google-maps/api'
 import {useAddPlace} from '../../hooks/use-add-place'
-import {getUid} from '@/common/utils/uid'
+import {getUid} from 'common/utils/uid'
 
 export const Search = () => {
   const searchBox = useRef<StandaloneSearchBox>(null)

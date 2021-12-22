@@ -1,6 +1,6 @@
-import {auth, createUserWithEmailAndPassword} from '@/common/firebase/auth'
-import {getMessage} from '@/common/firebase/error'
-import {errorNotification} from '@/common/notification'
+import {auth, createUserWithEmailAndPassword} from 'common/firebase/auth'
+import {getMessage} from 'common/firebase/error'
+import {errorNotification} from 'common/notification'
 
 export const useUserRegister = () => {
   return (email: string, password: string) =>

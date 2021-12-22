@@ -1,6 +1,6 @@
-import {auth, signInWithEmailAndPassword} from '@/common/firebase/auth'
-import {getMessage} from '@/common/firebase/error'
-import {errorNotification} from '@/common/notification'
+import {auth, signInWithEmailAndPassword} from 'common/firebase/auth'
+import {getMessage} from 'common/firebase/error'
+import {errorNotification} from 'common/notification'
 
 export const useLogin = () => {
   return (email: string, password: string) =>

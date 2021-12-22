@@ -1,5 +1,5 @@
-import {Place} from '@/common/types/place'
-import {Travel} from '@/common/types/travel'
+import {Place} from 'common/types/place'
+import {Travel} from 'common/types/travel'
 import {createContext, PropsWithChildren, useContext} from 'react'
 
 interface PlanerContext {

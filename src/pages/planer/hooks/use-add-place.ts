@@ -1,9 +1,9 @@
-import {getPositionForIndex} from '@/common/components/virtual-list/helpers'
-import {getMessage} from '@/common/firebase/error'
-import {Col, createRef, setDoc} from '@/common/firebase/firestore'
-import {useUser} from '@/common/hooks/use-user'
-import {errorNotification} from '@/common/notification'
-import {Place} from '@/common/types/place'
+import {getPositionForIndex} from 'common/components/virtual-list/helpers'
+import {getMessage} from 'common/firebase/error'
+import {Col, createRef, setDoc} from 'common/firebase/firestore'
+import {useUser} from 'common/hooks/use-user'
+import {errorNotification} from 'common/notification'
+import {Place} from 'common/types/place'
 import {usePlaner} from './use-planer'
 
 export const useAddPlace = () => {

@@ -2,9 +2,9 @@
 import React, {useEffect} from 'react'
 import Sheet, {SheetRef} from 'react-modal-sheet'
 
-import {useLocationStateKey} from '@/common/hooks/use-location-state-key'
+import {useLocationStateKey} from 'common/hooks/use-location-state-key'
 
-import {cn} from '@/common/utils/classnames'
+import {cn} from 'common/utils/classnames'
 
 const Container = Sheet.Container as any
 const Backdrop = Sheet.Backdrop as any

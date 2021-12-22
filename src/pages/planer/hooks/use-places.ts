@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {Place} from '@/common/types/place'
-import {Col, createColRef, onSnapshot} from '@/common/firebase/firestore'
-import {useData} from '@/common/hooks/use-data'
-import {useUser} from '@/common/hooks/use-user'
-import {Travel} from '@/common/types/travel'
+import {Place} from 'common/types/place'
+import {Col, createColRef, onSnapshot} from 'common/firebase/firestore'
+import {useData} from 'common/hooks/use-data'
+import {useUser} from 'common/hooks/use-user'
+import {Travel} from 'common/types/travel'
 import {useEffect} from 'react'
 
 export const usePlaces = (travel?: Travel) => {

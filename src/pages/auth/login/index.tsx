@@ -3,8 +3,8 @@ import {
   HandleSubmit,
   SubmitAction,
   TextInput,
-} from '@/common/components/form'
-import {REGISTER_URL, TRAVELS_URL} from '@/common/routes-urls'
+} from 'common/components/form'
+import {REGISTER_URL, TRAVELS_URL} from 'common/routes-urls'
 import {Link, useNavigate} from 'react-router-dom'
 import {useLogin} from './use-login'
 import {Login, valdiationSchema} from './validations'

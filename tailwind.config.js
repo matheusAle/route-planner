@@ -1,10 +1,12 @@
 module.exports = {
   purge: {
+    enabled: true,
+    content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
     options: {
       safelist: [/^Calendar/, /^DateInput/, /^DayPicke/, /^DateRangePicker/],
     },
   },
-  darkMode: false, // or 'media' or 'class'
+  // darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
       sm: '640px',

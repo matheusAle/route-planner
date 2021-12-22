@@ -1,6 +1,6 @@
-import {Col, createColRef, onSnapshot} from '@/common/firebase/firestore'
-import {useUser} from '@/common/hooks/use-user'
-import {Travel} from '@/common/types/travel'
+import {Col, createColRef, onSnapshot} from 'common/firebase/firestore'
+import {useUser} from 'common/hooks/use-user'
+import {Travel} from 'common/types/travel'
 import {useEffect, useState} from 'react'
 
 export const useTravelList = () => {

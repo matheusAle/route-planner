@@ -1,10 +1,10 @@
-import {getMessage} from '@/common/firebase/error'
-import {createRef, setDoc, Col} from '@/common/firebase/firestore'
-import {useUser} from '@/common/hooks/use-user'
-import {errorNotification} from '@/common/notification'
-import {Travel} from '@/common/types/travel'
-import {nowAsUtcString} from '@/common/utils/date'
-import {getUid} from '@/common/utils/uid'
+import {getMessage} from 'common/firebase/error'
+import {createRef, setDoc, Col} from 'common/firebase/firestore'
+import {useUser} from 'common/hooks/use-user'
+import {errorNotification} from 'common/notification'
+import {Travel} from 'common/types/travel'
+import {nowAsUtcString} from 'common/utils/date'
+import {getUid} from 'common/utils/uid'
 
 export const useCreateTravel = () => {
   const {user} = useUser()

@@ -3,8 +3,8 @@ import {
   HandleSubmit,
   SubmitAction,
   TextInput,
-} from '@/common/components/form'
-import {LOGIN_URL} from '@/common/routes-urls'
+} from 'common/components/form'
+import {LOGIN_URL} from 'common/routes-urls'
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {useUserRegister} from './use-user-register'

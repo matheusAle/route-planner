@@ -1,4 +1,4 @@
-import {Loader} from '@/pages/Loader'
+import {Loader} from 'pages/Loader'
 import {Outlet} from 'react-router'
 
 export const RoutePlanerApp = () => {

@@ -1,7 +1,7 @@
-import {Travel} from '@/common/types/travel'
-import {useFormatDateAgo} from '@/common/hooks/useFormatDateAgo'
+import {Travel} from 'common/types/travel'
+import {useFormatDateAgo} from 'common/hooks/useFormatDateAgo'
 import {useNavigate} from 'react-router'
-import {PLANER_URL} from '@/common/routes-urls'
+import {PLANER_URL} from 'common/routes-urls'
 
 export interface TravelCardProps {
   item: Travel
