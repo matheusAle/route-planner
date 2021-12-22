@@ -1,3 +1,11 @@
+import {cn} from 'common/utils/classnames'
+import {
+  MdDragHandle,
+  MdDragIndicator,
+  MdMoveToInbox,
+  MdWavingHand,
+} from 'react-icons/md'
+
 export const Handle = ({
   domain: [min, max],
   handle: {id, value, percent},
@@ -6,34 +14,30 @@ export const Handle = ({
 }: any) => {
   return (
     <>
-      <div
-        style={{
-          left: `${percent}%`,
-          position: 'absolute',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 5,
-          width: 36,
-          height: 64,
-          cursor: 'col-resize',
-          backgroundColor: 'none',
-        }}
-        {...(disabled ? {} : getHandleProps(id))}
-      />
-      <div
-        role="slider"
-        aria-valuemin={min}
-        aria-valuemax={max}
-        aria-valuenow={value}
-        style={{
-          left: `${percent}%`,
-          position: 'absolute',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 2,
-          width: 4,
-          height: 64,
-          backgroundColor: disabled ? '#666' : '#ffc400',
-        }}
-      />
+      {!disabled && (
+        <div
+          {...getHandleProps(id)}
+          role="slider"
+          aria-valuemin={min}
+          aria-valuemax={max}
+          aria-valuenow={value}
+          className={cn(
+            'rounded-r flex items-center justify-center',
+            'bg-primary bg-opacity-70 hover:bg-opacity-100 transition-colors duration-200',
+          )}
+          style={{
+            left: `${percent}%`,
+            position: 'absolute',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 2,
+            width: 12,
+            height: 64,
+            cursor: 'col-resize',
+          }}
+        >
+          <MdDragIndicator />
+        </div>
+      )}
     </>
   )
 }

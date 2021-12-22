@@ -88,10 +88,7 @@ export const Timeline = () => {
   }, [values])
 
   return (
-    <div className="w-100">
-      <h3 style={{paddingBottom: '20px'}}>
-        Total traveling time: {(domain.max / 3600).toFixed(0)} hours
-      </h3>
+    <div className="w-100 flex items-center">
       <Slider
         mode={3}
         step={3}

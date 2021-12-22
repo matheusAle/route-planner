@@ -3,7 +3,7 @@ import {GetRailProps} from 'react-compound-slider/dist/types/Rail/types'
 const railOuterStyle = {
   position: 'absolute',
   width: '100%',
-  height: 64,
+  height: 60,
   transform: 'translate(0%, -50%)',
   borderRadius: 7,
   cursor: 'pointer',
@@ -13,7 +13,7 @@ const railOuterStyle = {
 const railInnerStyle = {
   position: 'absolute',
   width: '100%',
-  height: 64,
+  height: 60,
   transform: 'translate(0%, -50%)',
   borderRadius: 7,
   pointerEvents: 'none',

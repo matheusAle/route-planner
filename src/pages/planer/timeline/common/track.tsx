@@ -26,7 +26,7 @@ export const Track = ({
         left: `${source.percent}%`,
         width: `${target.percent - source.percent}%`,
       }}
-      className={cn({'bg-primary': !disabled})}
+      className={cn({'bg-primary': !disabled}, 'rounded-l')}
       {...getTrackProps()}
     >
       <div className="card compact">
