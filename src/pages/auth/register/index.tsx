@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Form,
   HandleSubmit,
@@ -5,16 +6,17 @@ import {
   TextInput,
 } from 'common/components/form'
 import {LOGIN_URL} from 'common/routes-urls'
-import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {useUserRegister} from './use-user-register'
 import {Register, valdiationSchema} from './validations'
 
 export const RegisterPage = () => {
   const register = useUserRegister()
+  const navigate = useNavigate()
 
   const onSubmit: HandleSubmit<Register> = async ({email, password}) => {
     await register(email, password)
+    navigate(LOGIN_URL)
   }
 
   return (

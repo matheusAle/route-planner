@@ -1,10 +1,5 @@
 import {cn} from 'common/utils/classnames'
-import {
-  MdDragHandle,
-  MdDragIndicator,
-  MdMoveToInbox,
-  MdWavingHand,
-} from 'react-icons/md'
+import {MdDragIndicator} from 'react-icons/md'
 
 export const Handle = ({
   domain: [min, max],
