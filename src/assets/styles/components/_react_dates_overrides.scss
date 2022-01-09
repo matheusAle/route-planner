@@ -2,7 +2,8 @@
 @import '~react-dates/lib/css/_datepicker.css';
 
 .DateRangePicker_picker {
-  @apply bg-base-200 rounded;
+  @apply bg-base-200 rounded-none;
+  z-index: 999999999;
 
   .DayPicker,
   .CalendarMonthGrid,
@@ -19,6 +20,14 @@
   .DateInput_input {
     @apply bg-transparent;
   }
+}
+
+.DateInput_fang {
+  @apply text-base-200;
+
+  .DateInput_fangShape, .DateInput_fangStroke {
+    @apply fill-current;
+  }  
 }
 
 .DateInput_input__focused {

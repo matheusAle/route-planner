@@ -49,9 +49,9 @@ export const DatePicker = ({value, onChange}: DatePickerProps) => {
       onDatesChange={onDatesChange} // PropTypes.func.isRequired,
       focusedInput={focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
       onFocusChange={setFocusedInput} // PropTypes.func.isRequired,
-      withFullScreenPortal
       appendToBody
       disableScroll
+      numberOfMonths={1}
     />
   )
 }
