@@ -1,44 +1,62 @@
-import {cn} from 'common/utils/classnames'
 import {GetTrackProps, TrackItem} from 'react-compound-slider'
-import {timelinePoint} from '../types'
+import {MdLocationPin} from 'react-icons/md'
+import {TimelinePoint} from '../types'
 
 interface TrackProps {
-  point: timelinePoint
-  disabled: boolean
+  point: TimelinePoint
   trackItem: TrackItem
   getTrackProps: GetTrackProps
 }
 
-export const Track = ({
-  trackItem: {target, source},
-  getTrackProps,
-  disabled,
-  point,
-}: TrackProps) => {
+const EdgePin = ({point}: Pick<TrackProps, 'point'>) => (
+  <div
+    className="flex whitespace-nowrap"
+    style={{transform: 'translateY(-100%)'}}
+  >
+    <MdLocationPin />
+    <p className="text-sm">{point.name}</p>
+  </div>
+)
+
+const Place = ({point}: Pick<TrackProps, 'point'>) => (
+  <div className="card compact bg-primary overflow-hidden whitespace-nowrap h-full rounded-none">
+    <div className="card-body">
+      <p className="text-sm">{point.name}</p>
+    </div>
+  </div>
+)
+
+const Move = ({point}: Pick<TrackProps, 'point'>) => (
+  <div className="card compact">
+    <div className="card-body">
+      <p className="text-sm">{point.distance}</p>
+    </div>
+  </div>
+)
+
+export const Track = ({trackItem: {target, source}, point}: TrackProps) => {
+  const content = () => {
+    if (point.isEdge) return <EdgePin point={point} />
+
+    return point.type === 'move' ? (
+      <Move point={point} />
+    ) : (
+      <Place point={point} />
+    )
+  }
+
   return (
     <div
       style={{
         position: 'absolute',
         transform: 'translate(0%, -50%)',
+        left: `${source.percent}%`,
         height: 64,
         zIndex: 1,
-        cursor: 'pointer',
-        left: `${source.percent}%`,
         width: `${target.percent - source.percent}%`,
       }}
-      className={cn({'bg-primary': !disabled}, 'rounded-l')}
-      {...getTrackProps()}
     >
-      <div className="card compact">
-        <div className="card-body">
-          <p className="text-sm">{point.name || point.distance}</p>
-          <p className="text-xsm">
-            {point.duration > 0
-              ? `${(point?.duration / 3600).toFixed(0)} hours`
-              : ''}
-          </p>
-        </div>
-      </div>
+      {content()}
     </div>
   )
 }

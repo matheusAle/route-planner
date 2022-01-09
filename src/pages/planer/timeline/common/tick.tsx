@@ -1,4 +1,17 @@
-export function Tick({tick, count, item}: any) {
+import {format} from 'date-fns'
+import {useMemo} from 'react'
+import {SliderItem} from 'react-compound-slider'
+
+export interface TickProps {
+  tick: SliderItem
+  count: number
+}
+
+export const Tick = ({tick, count}: TickProps) => {
+  const text = useMemo(() => {
+    return format(new Date(tick.value), 'dd HH:mm')
+  }, [tick.value])
+
   return (
     <div>
       <div
@@ -22,7 +35,7 @@ export function Tick({tick, count, item}: any) {
           left: `${tick.percent}%`,
         }}
       >
-        {item?.name}
+        {text}
       </div>
     </div>
   )

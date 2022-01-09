@@ -1,7 +1,8 @@
-export interface timelinePoint {
+export interface TimelinePoint {
   type: 'stop' | 'move'
-  name: string
   at: number
-  distance: string
+  name: string
+  distance?: string
   duration: number
+  isEdge?: boolean
 }

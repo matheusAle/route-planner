@@ -1,15 +1,22 @@
 import {Place} from 'common/types/place'
-import {timelinePoint} from './types'
+import {TimelinePoint} from './types'
 
-export const isHandleDisabled = (index: number, length: number): boolean => {
-  return index === 0 || index % 2 === 1 || index + 1 === length
+export const isHandleDisabled = (
+  points: TimelinePoint[],
+  index: number,
+): boolean => {
+  if (index < 2 || index === points.length) return true
+  const point = points[index]
+  if (point.type === 'stop') return true
+
+  return false
 }
 
 export const parseLegToTimelinePoint = (
   at: number,
   leg: google.maps.DirectionsLeg,
-): timelinePoint => ({
-  type: 'stop',
+): TimelinePoint => ({
+  type: 'move',
   name: '',
   at,
   distance: leg?.distance?.text || '',
@@ -20,9 +27,9 @@ export const parsePlaceToTimelinePoint = (
   place: Place,
   at: number,
   stopTime: number,
-): timelinePoint => {
+): TimelinePoint => {
   return {
-    type: 'move',
+    type: 'stop',
     name: place.name,
     at,
     distance: '',
@@ -31,9 +38,9 @@ export const parsePlaceToTimelinePoint = (
 }
 
 export const onSliderChange = (
-  values: timelinePoint[],
+  values: TimelinePoint[],
   newValues: readonly number[],
-): timelinePoint[] => {
+): TimelinePoint[] => {
   // check which handler was changed
   const valuesToSet = [...values]
   valuesToSet.forEach((value, index) => {

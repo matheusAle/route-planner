@@ -27,12 +27,12 @@ ReactDOM.render(
         <Routes>
           <Route path={LOGIN_URL} element={<LoginPage />} />
           <Route path={REGISTER_URL} element={<RegisterPage />} />
-          <Route path={TRAVELS_URL} element={<TravelsPage />} />
           <Route path="/" element={<RoutePlanerApp />}>
             <Route
               path={`${PLANER_URL}/:name/:travel`}
               element={<PlanerPage />}
             />
+            <Route path={TRAVELS_URL} element={<TravelsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
