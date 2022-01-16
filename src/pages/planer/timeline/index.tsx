@@ -18,7 +18,7 @@ export const Timeline = () => {
 
   if (!points.length) return <></>
   return (
-    <div className="w-100 max-w-full flex items-center overflow-auto">
+    <div className="w-100 max-w-full h-full flex items-center overflow-auto">
       <Slider
         mode={sliderCustomHandle}
         step={1000 * 60 * 15}

@@ -10,6 +10,7 @@ import {ScreenLayout} from 'common/components/screen-layout'
 import {PlacesModal} from './common/places-modal'
 import {Timeline} from './timeline'
 import {Travel} from './common/travel'
+import st from './styles.module.scss'
 
 export const PlanerPage = () => {
   const {travel, isTravelLoading} = useTravel()
@@ -29,17 +30,21 @@ export const PlanerPage = () => {
       setDirections={setDirections}
     >
       <ScreenLayout.Desktop>
-        <div className="grid grid-rows-shell h-screen">
-          <div className="grid grid-cols-shell">
+        <div className={st.container}>
+          <div className={st.places}>
             <div className="card">
               <div className="card-body">
                 <Travel />
                 <Places />
               </div>
             </div>
+          </div>
+          <div className={st.map}>
             <Maps />
           </div>
-          <Timeline />
+          <div className={st.timeline}>
+            <Timeline />
+          </div>
         </div>
       </ScreenLayout.Desktop>
       <ScreenLayout.NotAnDesktop>

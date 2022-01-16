@@ -20,7 +20,7 @@ module.exports = {
         shell: '560px 1fr',
       },
       gridTemplateRows: {
-        shell: '1fr 120px',
+        shell: '500px 300px',
       },
     },
   },

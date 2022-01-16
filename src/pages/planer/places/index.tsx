@@ -9,7 +9,7 @@ export const Places = () => {
   const {selectPlace, places} = usePlaner()
   const updatePlace = useUpdatePlace()
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 overflow-auto max-h-full">
       <Search />
 
       {places.length ? (
