@@ -1,8 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
-  "name": "App",
+  "name": "Route Planner",
   "display": "standalone",
   "background_color": "#793ef9",
+  "description": "Plan your next trip route and stop times",
   "icons": [
     {
       "src": "fav/android-icon-36x36.png",
