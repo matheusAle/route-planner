@@ -27,5 +27,5 @@ export const Col = {
   travel: (user: User, travel: Travel) =>
     `${user.uid}/travels/own/${travel.uid}`,
   travelsPlaces: (user: User, travel: Travel) =>
-    `${user.uid}/places/${travel.uid}`,
+    `${user.uid}/travels/own/${travel.uid}/places`,
 }
