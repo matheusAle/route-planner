@@ -31,7 +31,7 @@ export const usePoints = () => {
       valuesToSet.push(moveTime)
       atAcc += (leg?.duration?.value || 0) * 1000
 
-      if (index === legs.length - 1) {
+      if (legs.length > 2 && index === legs.length - 1) {
         const lastPlace = parsePlaceToTimelinePoint(
           places[index + 1],
           atAcc,
