@@ -2,7 +2,6 @@ import {GetRailProps} from 'react-compound-slider/dist/types/Rail/types'
 
 const railOuterStyle = {
   position: 'absolute',
-  width: '100%',
   height: 60,
   transform: 'translate(0%, -50%)',
   borderRadius: 7,

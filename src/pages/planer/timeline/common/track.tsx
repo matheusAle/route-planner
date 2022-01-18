@@ -1,5 +1,7 @@
+import {useMemo} from 'react'
 import {GetTrackProps, TrackItem} from 'react-compound-slider'
 import {MdLocationPin} from 'react-icons/md'
+import {parseDistanceTime} from '../helpers/parse-distance'
 import {TimelinePoint} from '../types'
 
 interface TrackProps {
@@ -26,13 +28,20 @@ const Place = ({point}: Pick<TrackProps, 'point'>) => (
   </div>
 )
 
-const Move = ({point}: Pick<TrackProps, 'point'>) => (
-  <div className="card compact">
-    <div className="card-body">
-      <p className="text-sm">{point.distance}</p>
+const Move = ({point}: Pick<TrackProps, 'point'>) => {
+  const distance = useMemo(
+    () => parseDistanceTime(point.duration),
+    [point.duration],
+  )
+  return (
+    <div className="card compact">
+      <div className="card-body">
+        <p className="text-sm">{point.distance}</p>
+        <p className="text-xs">{distance}</p>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export const Track = ({trackItem: {target, source}, point}: TrackProps) => {
   const content = () => {
