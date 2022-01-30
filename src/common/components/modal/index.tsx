@@ -66,12 +66,13 @@ export function Modal({
       snapPoints={snapPoints}
       onSnap={setSnapPoint}
       initialSnap={initialSnap}
+      disableDrag
     >
       <Container>
         <Header>
           {typeof header === 'function' ? header({snapTo, snapPoint}) : header}
         </Header>
-        <Content>
+        <Content style={{paddingBottom: ref.current?.y}}>
           <div className="p-4 pb-10">{children}</div>
         </Content>
       </Container>

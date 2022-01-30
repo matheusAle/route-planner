@@ -10856,10 +10856,10 @@ react-merge-refs@1.1.0:
   resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"
   integrity sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==
 
-react-modal-sheet@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/react-modal-sheet/-/react-modal-sheet-1.4.2.tgz#0c7e6db726b91cfb613936f1f4504e0bb86c97da"
-  integrity sha512-+If+ZlUGf61YVGNrr86VhA7bnVpgv/BZjfZr1udPED6je5zhGyBWg0Sv78BZFtBNOKh9qXsHyhj4MENNLbClmQ==
+react-modal-sheet@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/react-modal-sheet/-/react-modal-sheet-1.5.0.tgz#7c20bf6f2cb4c85628f0638ee5d6a92d3c8706f6"
+  integrity sha512-iH7isp5D8r8l9zTg7dSB/7uuvS7Leq2d8fnNHE8mnLZxeHWfu9fzr2Zf9WQs3WTK0T4ZOnT+SQOEdZ2d1e5iTA==
   dependencies:
     react-merge-refs "1.1.0"
 

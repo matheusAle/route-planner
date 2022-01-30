@@ -7,6 +7,7 @@ import {
   DateRangePickerShape,
 } from 'react-dates'
 import {useEffect, useState} from 'react'
+import {useIsMobile} from '../screen-layout'
 
 export type DateSlice = [string | null, string | null]
 interface DatePickerProps {
@@ -17,6 +18,7 @@ interface DatePickerProps {
 export const DatePicker = ({value, onChange}: DatePickerProps) => {
   const [startDate, setStartDate] = useState<moment.Moment | null>(null)
   const [endDate, setEndDate] = useState<moment.Moment | null>(null)
+  const isMobile = useIsMobile()
 
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(
     null,
@@ -49,8 +51,8 @@ export const DatePicker = ({value, onChange}: DatePickerProps) => {
       onDatesChange={onDatesChange} // PropTypes.func.isRequired,
       focusedInput={focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
       onFocusChange={setFocusedInput} // PropTypes.func.isRequired,
-      appendToBody
       disableScroll
+      withFullScreenPortal={isMobile}
       numberOfMonths={1}
     />
   )

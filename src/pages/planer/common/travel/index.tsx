@@ -14,7 +14,7 @@ export const Travel = () => {
     })
   }
   return (
-    <div className="flex mb-5 items-center space-x-4">
+    <div className="flex mb-5 items-center space-y-3 md:space-y-0 space-x-4 flex-col md:flex-row">
       <h1 className="text-3xl">{travel.name}</h1>
       <DatePicker
         value={[travel.startDate || null, travel.endDate || null]}

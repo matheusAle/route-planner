@@ -1,5 +1,5 @@
 import React, {PropsWithChildren} from 'react'
-import MediaQuery from 'react-responsive'
+import MediaQuery, {useMediaQuery} from 'react-responsive'
 
 const mdScreen = 768
 const lgScreen = 1024
@@ -19,4 +19,8 @@ export const ScreenLayout = {
   Desktop: ({children}: PropsWithChildren<any>): React.ReactElement => (
     <MediaQuery minWidth={lgScreen}>{children}</MediaQuery>
   ),
+}
+
+export const useIsMobile = () => {
+  return useMediaQuery({maxWidth: lgScreen - 0.00001})
 }

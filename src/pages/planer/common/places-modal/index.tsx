@@ -4,7 +4,7 @@ import {PropsWithChildren} from 'react'
 import {MdChevronLeft} from 'react-icons/md'
 import {usePlaner} from '../../hooks/use-planer'
 
-const snapPoints = [-50, 0.05]
+const snapPoints = [-48, 48]
 
 const SNAP_BOTTON = 1
 const SNAP_TOP = 0
