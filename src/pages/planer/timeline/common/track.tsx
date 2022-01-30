@@ -1,16 +1,21 @@
 import {useMemo} from 'react'
 import {GetTrackProps, TrackItem} from 'react-compound-slider'
 import {MdLocationPin} from 'react-icons/md'
-import {parseDistanceTime} from '../helpers/parse-distance'
-import {TimelinePoint} from '../types'
+import {parseDistanceTime} from '../../../../common/utils/parse-distance'
+import {
+  Point,
+  TimelinePoint,
+  TimelinePointMove,
+  TimelinePointPlace,
+} from '../types'
 
 interface TrackProps {
-  point: TimelinePoint
+  point: Point
   trackItem: TrackItem
   getTrackProps: GetTrackProps
 }
 
-const EdgePin = ({point}: Pick<TrackProps, 'point'>) => (
+const EdgePin = ({point}: {point: any}) => (
   <div
     className="flex whitespace-nowrap items-center"
     style={{transform: 'translateY(-100%)', marginLeft: -5}}
@@ -18,27 +23,28 @@ const EdgePin = ({point}: Pick<TrackProps, 'point'>) => (
     <div className="w-7">
       <MdLocationPin />
     </div>
-    <p className="text-sm">{point.name}</p>
+    <p className="text-sm">{point?.place?.name}</p>
   </div>
 )
 
-const Place = ({point}: Pick<TrackProps, 'point'>) => (
+const Place = ({point}: {point: TimelinePointPlace}) => (
   <div className="card compact bg-primary overflow-hidden whitespace-nowrap h-full rounded-none">
     <div className="card-body">
-      <p className="text-sm">{point.name}</p>
+      <p className="text-sm">{point.place.name}</p>
     </div>
   </div>
 )
 
-const Move = ({point}: Pick<TrackProps, 'point'>) => {
+const Move = ({point}: {point: TimelinePointMove}) => {
   const distance = useMemo(
-    () => parseDistanceTime(point.duration),
-    [point.duration],
+    () =>
+      point.leg?.duration?.value && parseDistanceTime(point.leg.duration.value),
+    [point.leg],
   )
   return (
     <div className="card compact">
       <div className="card-body overflow-hidden whitespace-nowrap">
-        <p className="text-sm">{point.distance}</p>
+        <p className="text-sm">{point.leg?.duration?.text}</p>
         <p className="text-xs">{distance}</p>
       </div>
     </div>

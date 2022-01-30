@@ -9,4 +9,5 @@ export interface Place {
   url: string
   address: string
   order: number
+  stayTime: number
 }

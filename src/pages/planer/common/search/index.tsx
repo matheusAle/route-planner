@@ -21,6 +21,7 @@ export const Search = () => {
         lat: selection.geometry?.location?.lat() || 0,
         lng: selection.geometry?.location?.lng() || 0,
       },
+      stayTime: 1000 * 60 * 60,
     })
     if (inputRef.current) inputRef.current.value = ''
   }
