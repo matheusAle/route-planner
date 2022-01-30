@@ -6,12 +6,9 @@ import {
   DragDropContext,
   DraggableProvided,
   DraggableStateSnapshot,
-  DraggableRubric,
   DroppableProvided,
 } from 'react-beautiful-dnd'
 import 'react-virtualized/styles.css'
-import {WindowScroller, List} from 'react-virtualized'
-import ReactDOM from 'react-dom'
 import {getPositionForIndex} from './helpers'
 
 export interface ListRowProps<T> {
@@ -43,85 +40,39 @@ export const VirtualList = <T,>({
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable
-        droppableId="droppable"
-        mode="virtual"
-        renderClone={(
-          provided: DraggableProvided,
-          snapshot: DraggableStateSnapshot,
-          rubric: DraggableRubric,
-        ) => (
-          <div
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            ref={provided.innerRef}
-            className="flex"
-          >
-            <ItemRender
-              isDragging={snapshot.isDragging}
-              item={data[rubric.source.index]}
-              index={rubric.source.index}
-            />
-          </div>
-        )}
-      >
-        {(droppableProvided: DroppableProvided) => (
-          <WindowScroller>
-            {({height, isScrolling, onChildScroll, scrollTop}) => (
-              <List
-                autoHeight
-                rowCount={data.length}
-                height={height}
-                isScrolling={isScrolling}
-                onScroll={onChildScroll}
-                scrollTop={scrollTop}
-                rowHeight={100}
-                estimatedRowSize={100}
-                autoWidth
-                width={10000}
-                ref={ref => {
-                  // react-virtualized has no way to get the list's ref that I can so
-                  // So we use the `ReactDOM.findDOMNode(ref)` escape hatch to get the ref
-                  if (ref) {
-                    // eslint-disable-next-line react/no-find-dom-node
-                    const whatHasMyLifeComeTo = ReactDOM.findDOMNode(ref)
-                    if (whatHasMyLifeComeTo instanceof HTMLElement) {
-                      droppableProvided.innerRef(whatHasMyLifeComeTo)
-                    }
-                  }
-                }}
-                rowRenderer={({index, style}) => (
-                  <Draggable
-                    draggableId={idPredicate(data[index])}
-                    key={idPredicate(data[index])}
-                    index={index}
+      <Droppable droppableId="droppable">
+        {(provided: DroppableProvided) => (
+          <div {...provided.droppableProps} ref={provided.innerRef}>
+            {data.map((item, index) => (
+              <Draggable
+                draggableId={idPredicate(item)}
+                key={idPredicate(item)}
+                index={index}
+              >
+                {(
+                  provided: DraggableProvided,
+                  snapshot: DraggableStateSnapshot,
+                ) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    style={{
+                      ...provided.draggableProps.style,
+                      ...((provided.dragHandleProps as any)?.style || {}),
+                    }}
+                    className="flex py-2"
                   >
-                    {(
-                      provided: DraggableProvided,
-                      snapshot: DraggableStateSnapshot,
-                    ) => (
-                      <div
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={{
-                          ...style,
-                          ...provided.draggableProps.style,
-                        }}
-                        ref={provided.innerRef}
-                        className="flex py-2"
-                      >
-                        <ItemRender
-                          item={data[index]}
-                          isDragging={snapshot.isDragging}
-                          index={index}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
+                    <ItemRender
+                      item={item}
+                      isDragging={snapshot.isDragging}
+                      index={index}
+                    />
+                  </div>
                 )}
-              />
-            )}
-          </WindowScroller>
+              </Draggable>
+            ))}
+          </div>
         )}
       </Droppable>
     </DragDropContext>
