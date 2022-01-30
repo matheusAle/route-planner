@@ -12,10 +12,12 @@ interface TrackProps {
 
 const EdgePin = ({point}: Pick<TrackProps, 'point'>) => (
   <div
-    className="flex whitespace-nowrap"
-    style={{transform: 'translateY(-100%)'}}
+    className="flex whitespace-nowrap items-center"
+    style={{transform: 'translateY(-100%)', marginLeft: -5}}
   >
-    <MdLocationPin />
+    <div className="w-7">
+      <MdLocationPin />
+    </div>
     <p className="text-sm">{point.name}</p>
   </div>
 )
@@ -35,7 +37,7 @@ const Move = ({point}: Pick<TrackProps, 'point'>) => {
   )
   return (
     <div className="card compact">
-      <div className="card-body">
+      <div className="card-body overflow-hidden whitespace-nowrap">
         <p className="text-sm">{point.distance}</p>
         <p className="text-xs">{distance}</p>
       </div>

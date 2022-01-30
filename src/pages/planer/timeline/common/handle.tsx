@@ -23,7 +23,7 @@ export const Handle = ({
           style={{
             left: `${percent}%`,
             position: 'absolute',
-            transform: 'translate(-50%, -50%)',
+            transform: 'translate(-100%, -50%)',
             zIndex: 2,
             width: 12,
             height: 64,

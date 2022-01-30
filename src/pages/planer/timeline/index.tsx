@@ -9,6 +9,7 @@ import {usePoints} from './hooks/use-points'
 import {sliderCustomHandle} from './helpers/slider-custom-mode'
 import {useCallback, useEffect, useState} from 'react'
 import {cn} from 'common/utils/classnames'
+import {scaleTime} from 'd3-scale'
 
 const sliderStyle = {
   position: 'relative',
@@ -17,25 +18,28 @@ const sliderStyle = {
 }
 
 const zoomValues = [
-  {label: '1h', value: 60},
-  {label: '2h', value: 60 * 2},
-  {label: '4h', value: 60 * 4},
+  {label: '1h', value: 24},
+  {label: '2h', value: 12},
+  {label: '4h', value: 4},
 ]
 
 export const Timeline = () => {
   const {points, domainMax, domainMin} = usePoints()
 
   const [zoom, setZoom] = useState(60)
-  const [count, setCount] = useState(15)
+  const [dateTicks, setDateTicks] = useState<number[]>([])
 
   const onChange = useCallback(
     (val: number) => {
-      const n = 1000 * 60 * val
+      setDateTicks(
+        scaleTime()
+          .domain([domainMin, domainMax])
+          .ticks(3 * val)
+          .map((d: any) => +d),
+      )
       setZoom(val)
-      const time = domainMax - domainMin
-      setCount(Math.floor(time / n))
     },
-    [setZoom, setCount, domainMax, domainMin],
+    [setZoom, domainMax, domainMin],
   )
 
   useEffect(() => {
@@ -61,8 +65,8 @@ export const Timeline = () => {
         ))}
       </div>
       <div
-        className="flex items-center h-full"
-        style={{width: `${count * 92}px`}}
+        className="flex items-center h-full min-w-full"
+        style={{width: `${dateTicks.length * 62}px`}}
       >
         <Slider
           mode={sliderCustomHandle}
@@ -106,11 +110,16 @@ export const Timeline = () => {
             )}
           </Tracks>
 
-          <Ticks count={count * 2}>
+          <Ticks values={dateTicks}>
             {({ticks}) => (
               <div className="slider-ticks">
-                {ticks.map(tick => (
-                  <Tick key={tick.id} tick={tick} count={ticks.length} />
+                {ticks.map((tick, index) => (
+                  <Tick
+                    key={tick.id}
+                    tick={tick}
+                    nextTick={ticks[index + 1]}
+                    count={ticks.length}
+                  />
                 ))}
               </div>
             )}

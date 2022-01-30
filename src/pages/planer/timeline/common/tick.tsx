@@ -4,13 +4,23 @@ import {SliderItem} from 'react-compound-slider'
 
 export interface TickProps {
   tick: SliderItem
+  nextTick: SliderItem
   count: number
 }
 
-export const Tick = ({tick, count}: TickProps) => {
+export const Tick = ({tick, count, nextTick}: TickProps) => {
   const text = useMemo(() => {
-    return format(new Date(tick.value), 'dd HH:mm')
-  }, [tick.value])
+    const formatHour = 'HH:mm'
+    const current = new Date(tick.value)
+
+    if (!nextTick) return format(current, formatHour)
+
+    const next = new Date(nextTick.value)
+
+    if (current.getDay() !== next.getDay()) return format(next, 'dd/MMM')
+
+    return format(current, formatHour)
+  }, [tick.value, nextTick])
 
   return (
     <div>
