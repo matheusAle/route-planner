@@ -10,6 +10,7 @@ import {sliderCustomHandle} from './helpers/slider-custom-mode'
 import {useCallback, useEffect, useState} from 'react'
 import {cn} from 'common/utils/classnames'
 import {scaleTime} from 'd3-scale'
+import {useOnSliderChange} from './hooks/use-on-slide-change'
 
 const sliderStyle = {
   position: 'relative',
@@ -24,8 +25,8 @@ const zoomValues = [
 ]
 
 export const Timeline = () => {
-  const {points, domainMax, domainMin} = usePoints()
-
+  const {points, domainMax, domainMin, values} = usePoints()
+  const onSliderChange = useOnSliderChange(points)
   const [zoom, setZoom] = useState(60)
   const [dateTicks, setDateTicks] = useState<number[]>([])
 
@@ -72,8 +73,9 @@ export const Timeline = () => {
           mode={sliderCustomHandle}
           step={1000 * 60 * 15}
           domain={[domainMin, domainMax]}
-          rootStyle={{...sliderStyle}}
-          values={points.map(h => h.at)}
+          rootStyle={sliderStyle}
+          values={values}
+          onSlideEnd={onSliderChange}
         >
           <Rail>
             {({getRailProps}) => <SliderRail getRailProps={getRailProps} />}

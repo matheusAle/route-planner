@@ -1,13 +1,13 @@
 import {generateTestDirectionsResult} from 'common/utils/directions'
 import {generateTestPlace} from 'common/utils/place'
-import {Point, TimelinePoint} from '../types'
+import {Point} from '../types'
 import {generateTimelinePoints} from './generate-timeline-points'
 
 describe('generateTimelinePoints', () => {
   const distanceMeters = 1000
   const durationMinutes = 1
   const durationMilliseconds = durationMinutes * 1000
-  const domainMin = 0 // 1000 * 60 * 60 * 24 // 1d
+  const domainMin = 1000 * 60 * 60 * 24 // 1d
   const stayTime = 1
 
   const places = [

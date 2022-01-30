@@ -8,7 +8,6 @@ export const usePoints = () => {
   const {places, directions} = usePlaner()
 
   const points = useMemo(() => {
-    // do NOT execute if directions data is not loaded
     if (!places.length || !directions?.routes?.length) return []
 
     return generateTimelinePoints({
@@ -18,9 +17,12 @@ export const usePoints = () => {
     })
   }, [directions, places, domainMin])
 
+  const values = useMemo(() => points.map(p => p.at), [points])
+
   return {
     points,
     domainMax,
     domainMin,
+    values,
   }
 }

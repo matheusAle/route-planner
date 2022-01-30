@@ -1,5 +1,5 @@
 import {Place} from 'common/types/place'
-import {Point, TimelinePoint} from '../types'
+import {Point} from '../types'
 
 export const parseLegToTimelinePoint = (
   leg: google.maps.DirectionsLeg,

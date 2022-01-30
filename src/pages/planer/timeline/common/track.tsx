@@ -1,13 +1,8 @@
 import {useMemo} from 'react'
 import {GetTrackProps, TrackItem} from 'react-compound-slider'
 import {MdLocationPin} from 'react-icons/md'
-import {parseDistanceTime} from '../../../../common/utils/parse-distance'
-import {
-  Point,
-  TimelinePoint,
-  TimelinePointMove,
-  TimelinePointPlace,
-} from '../types'
+import {parseDistanceTime} from 'common/utils/parse-distance'
+import {Point, TimelinePointMove, TimelinePointPlace} from '../types'
 
 interface TrackProps {
   point: Point
