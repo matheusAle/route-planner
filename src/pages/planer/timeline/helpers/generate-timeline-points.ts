@@ -37,8 +37,8 @@ export const generateTimelinePoints = ({
     const place = places[index]
     const placeToPush = parsePlaceToTimelinePoint(place, atAcc)
 
-    if (index !== 0) atAcc += place.stayTime
-    else placeToPush.isEdge = true
+    atAcc += place.stayTime
+    // else placeToPush.isEdge = true
 
     valuesToSet.push(placeToPush)
 

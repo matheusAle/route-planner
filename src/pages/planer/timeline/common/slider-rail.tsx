@@ -1,19 +1,16 @@
 import {GetRailProps} from 'react-compound-slider/dist/types/Rail/types'
+import {useTimelineContext} from '../context'
 
 const railOuterStyle = {
   position: 'absolute',
-  height: 60,
-  transform: 'translate(0%, -50%)',
+  // transform: 'translate(0%, -50%)',
   borderRadius: 7,
   cursor: 'pointer',
-  // border: '1px solid white',
 }
 
 const railInnerStyle = {
   position: 'absolute',
-  width: '100%',
-  height: 60,
-  transform: 'translate(0%, -50%)',
+  // transform: 'translate(0%, -50%)',
   borderRadius: 7,
   pointerEvents: 'none',
 }
@@ -23,11 +20,26 @@ interface SliderRailProps {
 }
 
 export const SliderRail = ({getRailProps}: SliderRailProps) => {
+  const {direction, width, height} = useTimelineContext()
   return (
     <>
-      <div style={railOuterStyle} {...getRailProps()} />
       <div
-        style={railInnerStyle as any}
+        className="slider-rail"
+        style={{
+          ...railOuterStyle,
+          ...(direction === 'vertical'
+            ? {height: '100%', width}
+            : {width: '100%', height}),
+        }}
+        {...getRailProps()}
+      />
+      <div
+        style={{
+          ...(railInnerStyle as any),
+          ...(direction === 'vertical'
+            ? {height: '100%', width}
+            : {width: '100%', height}),
+        }}
         className="bg-gray-400 bg-opacity-50"
       />
     </>

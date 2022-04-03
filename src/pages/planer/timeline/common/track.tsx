@@ -3,6 +3,7 @@ import {GetTrackProps, TrackItem} from 'react-compound-slider'
 import {MdLocationPin} from 'react-icons/md'
 import {parseDistanceTime} from 'common/utils/parse-distance'
 import {Point, TimelinePointMove, TimelinePointPlace} from '../types'
+import {useTimelineContext} from '../context'
 
 interface TrackProps {
   point: Point
@@ -31,7 +32,7 @@ const Place = ({point}: {point: TimelinePointPlace}) => (
 )
 
 const Move = ({point}: {point: TimelinePointMove}) => {
-  const distance = useMemo(
+  const duration = useMemo(
     () =>
       point.leg?.duration?.value && parseDistanceTime(point.leg.duration.value),
     [point.leg],
@@ -39,14 +40,15 @@ const Move = ({point}: {point: TimelinePointMove}) => {
   return (
     <div className="card compact">
       <div className="card-body overflow-hidden whitespace-nowrap">
-        <p className="text-sm">{point.leg?.duration?.text}</p>
-        <p className="text-xs">{distance}</p>
+        <p className="text-sm">{duration}</p>
+        <p className="text-xs">{point.leg?.distance?.text}</p>
       </div>
     </div>
   )
 }
 
 export const Track = ({trackItem: {target, source}, point}: TrackProps) => {
+  const {direction, width, height} = useTimelineContext()
   const content = () => {
     if (point.isEdge) return <EdgePin point={point} />
 
@@ -61,11 +63,19 @@ export const Track = ({trackItem: {target, source}, point}: TrackProps) => {
     <div
       style={{
         position: 'absolute',
-        transform: 'translate(0%, -50%)',
-        left: `${source.percent}%`,
-        height: 64,
+        // transform: 'translate(0%, -50%)',
         zIndex: 1,
-        width: `${target.percent - source.percent}%`,
+        ...(direction === 'vertical'
+          ? {
+              top: `${source.percent}%`,
+              height: `${target.percent - source.percent}%`,
+              width,
+            }
+          : {
+              left: `${source.percent}%`,
+              width: `${target.percent - source.percent}%`,
+              height,
+            }),
       }}
     >
       {content()}

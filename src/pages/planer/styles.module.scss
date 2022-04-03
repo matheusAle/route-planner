@@ -2,7 +2,7 @@
   display: grid;
   grid-template: 'places map' 'timeline timeline';
   grid-template-columns: 560px 1fr;
-  grid-template-rows: calc(100vh - 168px) 168px;
+  grid-template-rows: calc(100vh - 144px) 144px;
 
   max-height: 100%;
 

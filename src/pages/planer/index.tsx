@@ -32,8 +32,8 @@ export const PlanerPage = () => {
       <ScreenLayout.Desktop>
         <div className={st.container}>
           <div className={st.places}>
-            <div className="card">
-              <div className="card-body">
+            <div className="card h-full">
+              <div className="card-body h-full">
                 <Travel />
                 <Places />
               </div>
@@ -53,7 +53,10 @@ export const PlanerPage = () => {
         </div>
         <PlacesModal>
           <Travel />
-          <Places />
+          <div className="flex flex-col">
+            <Timeline vertical />
+            <Places />
+          </div>
         </PlacesModal>
       </ScreenLayout.NotAnDesktop>
     </PlanerContextProvider>
