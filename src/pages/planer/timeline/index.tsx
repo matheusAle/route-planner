@@ -5,12 +5,12 @@ import {Track} from './common/track'
 import {SliderRail} from './common/slider-rail'
 import {Handle} from './common/handle'
 import {Tick} from './common/tick'
-import {usePoints} from './hooks/use-points'
 import {sliderCustomHandle} from './helpers/slider-custom-mode'
 import {useCallback, useEffect, useState} from 'react'
 import {cn} from 'common/utils/classnames'
 import {scaleTime} from 'd3-scale'
 import {useOnSliderChange} from './hooks/use-on-slide-change'
+import {TimelineContextProvider, useTimelimeContext} from './context'
 
 const sliderStyle = {
   position: 'relative',
@@ -24,8 +24,12 @@ const zoomValues = [
   {label: '4h', value: 4},
 ]
 
-export const Timeline = () => {
-  const {points, domainMax, domainMin, values} = usePoints()
+export const TimelineInner = () => {
+  const {
+    points,
+    pointsValues,
+    domain: [domainMin, domainMax],
+  } = useTimelimeContext()
   const onSliderChange = useOnSliderChange(points)
   const [zoom, setZoom] = useState(60)
   const [dateTicks, setDateTicks] = useState<number[]>([])
@@ -74,7 +78,7 @@ export const Timeline = () => {
           step={1000 * 60 * 15}
           domain={[domainMin, domainMax]}
           rootStyle={sliderStyle}
-          values={values}
+          values={pointsValues}
           onSlideEnd={onSliderChange}
         >
           <Rail>
@@ -131,3 +135,9 @@ export const Timeline = () => {
     </div>
   )
 }
+
+export const Timeline = () => (
+  <TimelineContextProvider>
+    <TimelineInner />
+  </TimelineContextProvider>
+)
