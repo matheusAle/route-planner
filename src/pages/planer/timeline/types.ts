@@ -17,3 +17,5 @@ export interface TimelinePointMove extends TimelinePoint {
 }
 
 export type Point = TimelinePointMove | TimelinePointPlace
+
+export type DomainType = [number, number]

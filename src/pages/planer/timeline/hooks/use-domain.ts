@@ -1,8 +1,9 @@
 import {parseISO} from 'date-fns'
 import {usePlaner} from 'pages/planer/hooks/use-planer'
 import {useMemo} from 'react'
+import {DomainType} from '../types'
 
-export const useDomain = (): [number, number] => {
+export const useDomain = (): DomainType => {
   const {
     travel: {startDate, endDate},
   } = usePlaner()

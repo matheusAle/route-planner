@@ -1,8 +1,9 @@
 import {usePlaner} from 'pages/planer/hooks/use-planer'
 import {useMemo} from 'react'
 import {generateTimelinePoints} from '../helpers/generate-timeline-points'
+import {DomainType} from '../types'
 
-export const useDomainPoints = ([domainMin, domainMax]: [number, number]) => {
+export const useDomainPoints = ([domainMin, domainMax]: DomainType) => {
   const {places, directions} = usePlaner()
 
   const points = useMemo(() => {

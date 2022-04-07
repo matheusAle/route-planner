@@ -6,11 +6,9 @@ import {SliderRail} from './common/slider-rail'
 import {Handle} from './common/handle'
 import {Tick} from './common/tick'
 import {sliderCustomHandle} from './helpers/slider-custom-mode'
-import {useCallback, useEffect, useState} from 'react'
-import {cn} from 'common/utils/classnames'
-import {scaleTime} from 'd3-scale'
 import {useOnSliderChange} from './hooks/use-on-slide-change'
 import {TimelineContextProvider, useTimelimeContext} from './context'
+import {ScaleTicks} from './common/scale-ticks'
 
 const sliderStyle = {
   position: 'relative',
@@ -18,60 +16,23 @@ const sliderStyle = {
   width: '100%',
 }
 
-const zoomValues = [
-  {label: '1h', value: 24},
-  {label: '2h', value: 12},
-  {label: '4h', value: 4},
-]
-
 export const TimelineInner = () => {
   const {
     points,
     pointsValues,
     domain: [domainMin, domainMax],
+    scale: {ticks},
   } = useTimelimeContext()
   const onSliderChange = useOnSliderChange(points)
-  const [zoom, setZoom] = useState(60)
-  const [dateTicks, setDateTicks] = useState<number[]>([])
-
-  const onChange = useCallback(
-    (val: number) => {
-      setDateTicks(
-        scaleTime()
-          .domain([domainMin, domainMax])
-          .ticks(3 * val)
-          .map((d: any) => +d),
-      )
-      setZoom(val)
-    },
-    [setZoom, domainMax, domainMin],
-  )
-
-  useEffect(() => {
-    onChange(zoomValues[0].value)
-  }, [onChange])
 
   if (!points.length) return <></>
 
   return (
     <div className="overflow-auto h-full flex flex-col px-6">
-      <div className="btn-group">
-        <label htmlFor="" className="mr-3">
-          zoom:{' '}
-        </label>
-        {zoomValues.map(({label, value}) => (
-          <button
-            key={value}
-            className={cn('btn btn-xs', {'btn-active': zoom === value})}
-            onClick={() => onChange(value)}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+      <ScaleTicks />
       <div
         className="flex items-center h-full min-w-full"
-        style={{width: `${dateTicks.length * 62}px`}}
+        style={{width: `${ticks.length * 62}px`}}
       >
         <Slider
           mode={sliderCustomHandle}
@@ -116,7 +77,7 @@ export const TimelineInner = () => {
             )}
           </Tracks>
 
-          <Ticks values={dateTicks}>
+          <Ticks values={ticks}>
             {({ticks}) => (
               <div className="slider-ticks">
                 {ticks.map((tick, index) => (
