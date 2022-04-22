@@ -16,7 +16,7 @@ const sliderStyle = {
   width: '100%',
 }
 
-export const TimelineInner = () => {
+const TimelineInner = () => {
   const {
     points,
     pointsValues,
@@ -53,6 +53,7 @@ export const TimelineInner = () => {
                   <Handle
                     key={handle.id}
                     handle={handle}
+                    isFirst={index === 0}
                     domain={[domainMin, domainMax]}
                     getHandleProps={getHandleProps}
                     disabled={isHandleDisabled(points, index)}

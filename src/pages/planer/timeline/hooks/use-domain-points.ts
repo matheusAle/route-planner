@@ -4,7 +4,7 @@ import {generateTimelinePoints} from '../helpers/generate-timeline-points'
 import {DomainType} from '../types'
 
 export const useDomainPoints = ([domainMin, domainMax]: DomainType) => {
-  const {places, directions} = usePlaner()
+  const {places, directions, travel} = usePlaner()
 
   const points = useMemo(() => {
     if (!places.length || !directions?.routes?.length) return []
@@ -13,8 +13,9 @@ export const useDomainPoints = ([domainMin, domainMax]: DomainType) => {
       places,
       directions,
       domainMin,
+      travel,
     })
-  }, [directions, places, domainMin])
+  }, [directions, places, domainMin, travel])
 
   const pointsValues = useMemo(() => points.map(p => p.at), [points])
 

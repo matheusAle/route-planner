@@ -16,6 +16,11 @@ export interface TimelinePointMove extends TimelinePoint {
   leg?: google.maps.DirectionsLeg
 }
 
-export type Point = TimelinePointMove | TimelinePointPlace
+export interface TimelinePointArrive extends TimelinePoint {
+  type: 'move'
+  isArrive: true
+}
+
+export type Point = TimelinePointMove | TimelinePointPlace | TimelinePointArrive
 
 export type DomainType = [number, number]

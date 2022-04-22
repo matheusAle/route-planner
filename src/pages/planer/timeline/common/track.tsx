@@ -53,7 +53,7 @@ export const Track = ({trackItem: {target, source}, point}: TrackProps) => {
     return point.type === 'move' ? (
       <Move point={point} />
     ) : (
-      <Place point={point} />
+      <Place point={point as any} />
     )
   }
 

@@ -4,6 +4,7 @@ import {MdDragIndicator} from 'react-icons/md'
 export const Handle = ({
   domain: [min, max],
   handle: {id, value, percent},
+  isFirst = false,
   disabled,
   getHandleProps,
 }: any) => {
@@ -23,7 +24,9 @@ export const Handle = ({
           style={{
             left: `${percent}%`,
             position: 'absolute',
-            transform: 'translate(-100%, -50%)',
+            transform: isFirst
+              ? 'translate(0, -50%)'
+              : 'translate(-100%, -50%)',
             zIndex: 2,
             width: 12,
             height: 64,

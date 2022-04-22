@@ -1,4 +1,5 @@
 import {Place} from 'common/types/place'
+import {Travel} from 'common/types/travel'
 import {Point} from '../types'
 
 export const parseLegToTimelinePoint = (
@@ -22,23 +23,43 @@ interface generateTimelinePointsParam {
   places: Place[]
   directions: google.maps.DirectionsResult
   domainMin: number
+  travel: Travel
 }
 
 export const generateTimelinePoints = ({
   places,
   directions,
   domainMin,
+  travel,
 }: generateTimelinePointsParam) => {
-  const valuesToSet: Point[] = []
-  let atAcc = domainMin
+  console.log(travel.arriveAt)
+  const valuesToSet: Point[] = [
+    // {
+    //   type: 'move',
+    //   at: domainMin,
+    // },
+    // {
+    //   type: 'stop',
+    //   at: domainMin + (travel.arriveAt || 0),
+    //   place: {name: 'Arrive'} as any,
+    // },
+    // {
+    //   type: 'move',
+    //   isArrive: true,
+    //   at:  + 1000 +,
+    // },
+  ]
+  let atAcc = domainMin + (travel.arriveAt || 0)
   const [{legs}] = directions.routes
 
   legs.forEach((leg, index) => {
     const place = places[index]
     const placeToPush = parsePlaceToTimelinePoint(place, atAcc)
 
-    if (index !== 0) atAcc += place.stayTime
-    else placeToPush.isEdge = true
+    // if (index !== 0)
+
+    atAcc += place.stayTime
+    // else placeToPush.isEdge = true
 
     valuesToSet.push(placeToPush)
 

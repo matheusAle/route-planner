@@ -5,4 +5,5 @@ export interface Travel {
 
   startDate?: string | null
   endDate?: string | null
+  arriveAt?: number
 }
