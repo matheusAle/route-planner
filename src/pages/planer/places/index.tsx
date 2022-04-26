@@ -20,9 +20,10 @@ export const Places = () => {
           sorted={(item, order) => {
             updatePlace({...item, order})
           }}
-          itemRender={({item}) => (
+          itemRender={({item, index}) => (
             <PlaceCard
               place={item}
+              mark={String.fromCharCode(65 + index)}
               key={item.uid}
               onClick={() => selectPlace(item)}
             />
