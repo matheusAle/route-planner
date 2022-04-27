@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import ReactDOM from 'react-dom'
 import {ToastContainer} from 'react-toastify'
 
 import './assets/styles/styles.scss'
 
 import reportWebVitals from './reportWebVitals'
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import {BrowserRouter, Routes, Route, useNavigate} from 'react-router-dom'
 
 import {RoutePlanerApp} from './pages/RoutePlanerApp'
 import {LoginPage} from './pages/auth/login'
@@ -20,10 +20,18 @@ import {RegisterPage} from './pages/auth/register'
 import {PlanerPage} from './pages/planer'
 import {TravelsPage} from './pages/travels'
 
+const NoMatch = () => {
+  const navigate = useNavigate()
+  useEffect(() => {
+    navigate(LOGIN_URL)
+  }, [navigate])
+  return null
+}
+
 ReactDOM.render(
   <React.StrictMode>
-    <UserContextProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <UserContextProvider>
         <Routes>
           <Route path={LOGIN_URL} element={<LoginPage />} />
           <Route path={REGISTER_URL} element={<RegisterPage />} />
@@ -34,9 +42,10 @@ ReactDOM.render(
             />
             <Route path={TRAVELS_URL} element={<TravelsPage />} />
           </Route>
+          <Route path="*" element={<NoMatch />} />
         </Routes>
-      </BrowserRouter>
-    </UserContextProvider>
+      </UserContextProvider>
+    </BrowserRouter>
     <ToastContainer />
   </React.StrictMode>,
   document.getElementById('root'),

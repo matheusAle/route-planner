@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {
   GoogleMap,
   DirectionsRenderer,
@@ -6,6 +6,7 @@ import {
 } from '@react-google-maps/api'
 import {useDirections} from './use-directions'
 import {usePlaner} from '../hooks/use-planer'
+import {Place} from 'common/types/place'
 
 const containerStyle = {
   width: '100%',
@@ -14,27 +15,45 @@ const containerStyle = {
 
 export const Maps = () => {
   const {selectedPlace, directions} = usePlaner()
-  const [, setMap] = React.useState<google.maps.Map | null>(null)
-  const {directionsRequest, directionsRequestCallback} = useDirections()
 
-  const onLoad = React.useCallback(mapLoad => {
-    const bounds = new window.google.maps.LatLngBounds()
-    mapLoad.fitBounds(bounds)
+  const {directionsRequest, directionsRequestCallback} = useDirections()
+  const [bounds, setBounds] = useState(() =>
+    new window.google.maps.LatLngBounds().toJSON(),
+  )
+
+  const [map, setMap] = useState<google.maps.Map>()
+  const onLoad = React.useCallback((mapLoad: google.maps.Map) => {
+    // mapLoad.fitBounds(bounds)
+
+    // mapLoad.addListener('bounds_changed', () => {
+    //   setBounds(mapLoad.getBounds() as any)
+    //   console.log(mapLoad.getBounds())
+    // })
+    // mapLoad.addListener('zoom_changed', () => {
+    //   setZoom(mapLoad.getZoom())
+    // })
     setMap(mapLoad)
   }, [])
 
-  const onUnmount = React.useCallback(() => {
-    setMap(null)
+  const onBoundsChanged = useCallback(() => {
+    const b = map?.getBounds()
+    if (b) setBounds(b.toJSON)
   }, [])
+
+  useEffect(() => {
+    if (map && selectedPlace) {
+      const b = new window.google.maps.LatLngBounds()
+
+      map.fitBounds(b.extend(selectedPlace?.geo))
+    }
+  }, [selectedPlace?.geo.lat, map])
 
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={selectedPlace?.geo}
-      zoom={10}
       onLoad={onLoad}
-      onUnmount={onUnmount}
       mapContainerClassName="h-full w-full"
+      onBoundsChanged={onBoundsChanged}
     >
       {directionsRequest && (
         <DirectionsService

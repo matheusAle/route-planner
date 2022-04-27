@@ -7,6 +7,8 @@ import {
   useState,
 } from 'react'
 import React from 'react'
+import {useNavigate} from 'react-router'
+import {LOGIN_URL} from 'common/routes-urls'
 
 export interface UserContext {
   isLoadingUser: boolean
@@ -21,13 +23,15 @@ const userContext = createContext<UserContext>({
 export const UserContextProvider = ({children}: PropsWithChildren<any>) => {
   const [user, setUser] = useState<User>(null as unknown as User)
   const [isLoadingUser, setLoadingUser] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     onAuthStateChanged(auth, data => {
-      if (data) {
-        setUser(data)
-      }
       setLoadingUser(false)
+      if (!data) {
+        return navigate(LOGIN_URL)
+      }
+      setUser(data)
     })
   }, [])
 
