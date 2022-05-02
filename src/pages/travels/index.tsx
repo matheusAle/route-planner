@@ -6,7 +6,7 @@ export const TravelsPage = () => {
   const list = useTravelList()
   const createTravel = useCreateTravel()
   return (
-    <div className="h-screen flex flex-col items-center py-8">
+    <div className="min-h-screen flex flex-col items-center py-8 overflow-x-auto">
       <div className="card w-full md:bordered md:w-1/3 md:bg-base-200">
         <div className="card-body">
           <h2 className="card-title">Travels</h2>
