@@ -27,11 +27,11 @@ export const UserContextProvider = ({children}: PropsWithChildren<any>) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, data => {
-      setLoadingUser(false)
       if (!data) {
         return navigate(LOGIN_URL)
       }
       setUser(data)
+      setLoadingUser(false)
     })
   }, [])
 
