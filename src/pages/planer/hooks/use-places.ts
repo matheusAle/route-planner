@@ -4,7 +4,7 @@ import {Col, createColRef, onSnapshot} from 'common/firebase/firestore'
 import {useData} from 'common/hooks/use-data'
 import {useUser} from 'common/hooks/use-user'
 import {Travel} from 'common/types/travel'
-import {useEffect} from 'react'
+import {useEffect, useMemo} from 'react'
 
 export const usePlaces = (travel?: Travel) => {
   const {data, isLoading, setLoading, setData} = useData<Place[]>([])
@@ -21,8 +21,16 @@ export const usePlaces = (travel?: Travel) => {
     })
   }, [travel])
 
+  const placesInRoute = useMemo(() => (data || []).filter(p => p.route), [data])
+  const placesNotInRoute = useMemo(
+    () => (data || []).filter(p => !p.route),
+    [data],
+  )
+
   return {
     places: data,
+    placesInRoute,
+    placesNotInRoute,
     isPlacesLoading: isLoading,
   }
 }

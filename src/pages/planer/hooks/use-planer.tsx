@@ -6,6 +6,8 @@ interface PlanerContext {
   selectedPlace?: Place
   selectPlace(p: Place): void
   places: Place[]
+  placesInRoute: Place[]
+  placesNotInRoute: Place[]
   travel: Travel
 
   directions?: google.maps.DirectionsResult

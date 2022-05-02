@@ -3,10 +3,11 @@ import {
   GoogleMap,
   DirectionsRenderer,
   DirectionsService,
+  Marker,
 } from '@react-google-maps/api'
 import {useDirections} from './use-directions'
 import {usePlaner} from '../hooks/use-planer'
-import {Place} from 'common/types/place'
+import {cn} from 'common/utils/classnames'
 
 const containerStyle = {
   width: '100%',
@@ -14,12 +15,11 @@ const containerStyle = {
 }
 
 export const Maps = () => {
-  const {selectedPlace, directions} = usePlaner()
+  const {selectedPlace, directions, places} = usePlaner()
 
   const {directionsRequest, directionsRequestCallback} = useDirections()
-  const [bounds, setBounds] = useState(() =>
-    new window.google.maps.LatLngBounds().toJSON(),
-  )
+  const [bounds, setBounds] = useState()
+  // new window.google.maps.LatLngBounds().toJSON(),
 
   const [map, setMap] = useState<google.maps.Map>()
   const onLoad = React.useCallback((mapLoad: google.maps.Map) => {
@@ -36,8 +36,8 @@ export const Maps = () => {
   }, [])
 
   const onBoundsChanged = useCallback(() => {
-    const b = map?.getBounds()
-    if (b) setBounds(b.toJSON)
+    // const b = map?.getBounds()
+    // if (b) setBounds(b.toJSON)
   }, [])
 
   useEffect(() => {
@@ -52,9 +52,24 @@ export const Maps = () => {
     <GoogleMap
       mapContainerStyle={containerStyle}
       onLoad={onLoad}
-      mapContainerClassName="h-full w-full"
+      mapContainerClassName="h-full w-full "
       onBoundsChanged={onBoundsChanged}
     >
+      {places.map((place, index) => (
+        <Marker
+          position={place.geo}
+          key={place.place_id}
+          label={{
+            text: String.fromCharCode(65 + index),
+            className: cn(
+              'font-semibold',
+              place.route ? ' text-white' : ' text-gray-500 opacity-80',
+            ),
+            color: 'currentColor',
+          }}
+          zIndex={99}
+        />
+      ))}
       {directionsRequest && (
         <DirectionsService
           options={directionsRequest}
@@ -65,9 +80,11 @@ export const Maps = () => {
         <DirectionsRenderer
           options={{
             directions,
+            suppressMarkers: true,
           }}
         />
       )}
+
       <></>
     </GoogleMap>
   )

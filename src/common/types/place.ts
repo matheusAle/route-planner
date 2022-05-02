@@ -10,4 +10,5 @@ export interface Place {
   address: string
   order: number
   stayTime: number
+  route?: boolean
 }

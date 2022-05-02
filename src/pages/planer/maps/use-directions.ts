@@ -1,25 +1,26 @@
-import {useCallback, useMemo} from 'react'
+import {useCallback} from 'react'
+import {useDeepCompareMemo} from 'use-deep-compare'
 import {usePlaner} from '../hooks/use-planer'
 
 export const useDirections = () => {
-  const {places, setDirections} = usePlaner()
+  const {placesInRoute, setDirections} = usePlaner()
 
-  const directionsRequest = useMemo<
+  const directionsRequest = useDeepCompareMemo<
     google.maps.DirectionsRequest | undefined
   >(() => {
-    if (!places.length) return
-    const [origin] = places
+    if (!placesInRoute.length) return
+    const [origin] = placesInRoute
 
     return {
       origin: {placeId: origin.place_id},
-      destination: {placeId: places[places.length - 1].place_id},
+      destination: {placeId: placesInRoute[placesInRoute.length - 1].place_id},
       travelMode: google.maps.TravelMode.DRIVING,
-      waypoints: places.slice(1, -1).map(place => ({
-        location: {placeId: place.place_id},
+      waypoints: placesInRoute.slice(1, -1).map(placesInRoute => ({
+        location: {placeId: placesInRoute.place_id},
         stopover: true,
       })),
     }
-  }, [places])
+  }, [placesInRoute])
 
   const directionsRequestCallback = useCallback(
     (

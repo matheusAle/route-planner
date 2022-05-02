@@ -2,6 +2,8 @@ import React from 'react'
 import {Place} from 'common/types/place'
 import {FaTrash} from 'react-icons/fa'
 import {useDeletePlace} from '../../hooks/use-delete-place'
+import {useUpdatePlace} from '../../hooks/use-update-place'
+import {cn} from 'common/utils/classnames'
 
 interface PlaceCardProps {
   place: Place
@@ -11,14 +13,28 @@ interface PlaceCardProps {
 
 export const PlaceCard = ({place, onClick, mark}: PlaceCardProps) => {
   const deletePlace = useDeletePlace()
+  const updatePlace = useUpdatePlace()
 
   const removeHandle = () => deletePlace(place)
+
+  const toggleRoute = () => {
+    updatePlace({
+      ...place,
+      route: !place.route,
+    })
+  }
 
   return (
     <div onClick={onClick} className="card bordered compact bg-base-200 w-full">
       <div className="card-body flex items-center flex-row">
         <div className="flex-grow flex flex-row space-x-3">
-          <div className="rounded-full bg-gray-600 flex-shrink-0 w-8 h-8 flex items-center justify-center">
+          <div
+            onClick={toggleRoute}
+            className={cn(
+              'rounded-full cursor-pointer flex-shrink-0 w-8 h-8 flex items-center justify-center',
+              place.route ? 'bg-blue-600' : 'bg-gray-600',
+            )}
+          >
             <div>{mark}</div>
           </div>
           <div>

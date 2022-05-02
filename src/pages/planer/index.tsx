@@ -15,7 +15,8 @@ import st from './styles.module.scss'
 export const PlanerPage = () => {
   const {travel, isTravelLoading} = useTravel()
   const {isLoaded} = useMaps()
-  const {places, isPlacesLoading} = usePlaces(travel)
+  const {places, placesInRoute, placesNotInRoute, isPlacesLoading} =
+    usePlaces(travel)
   const [selectedPlace, setSelectedPlace] = useState<Place>()
   const [directions, setDirections] = useState<google.maps.DirectionsResult>()
   if (isTravelLoading || isPlacesLoading || !isLoaded) return <>loading...</>
@@ -25,6 +26,8 @@ export const PlanerPage = () => {
       selectPlace={setSelectedPlace}
       selectedPlace={selectedPlace}
       places={places}
+      placesInRoute={placesInRoute}
+      placesNotInRoute={placesNotInRoute}
       travel={travel}
       directions={directions}
       setDirections={setDirections}

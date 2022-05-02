@@ -32,7 +32,6 @@ export const generateTimelinePoints = ({
   domainMin,
   travel,
 }: generateTimelinePointsParam) => {
-  console.log(travel.arriveAt)
   const valuesToSet: Point[] = [
     // {
     //   type: 'move',
