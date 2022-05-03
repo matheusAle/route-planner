@@ -1,64 +1,47 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import {
-  GoogleMap,
-  DirectionsRenderer,
-  DirectionsService,
-  Marker,
-} from '@react-google-maps/api'
-import {useDirections} from './use-directions'
+import {GoogleMap, Marker} from '@react-google-maps/api'
 import {usePlaner} from '../hooks/use-planer'
 import {cn} from 'common/utils/classnames'
+import {Directions} from './directions'
 
-const containerStyle = {
-  width: '100%',
-  height: '100%',
+const CENTER_FLORIPA: google.maps.LatLngLiteral = {
+  lat: -27.6017105,
+  lng: -48.5957942,
 }
 
 export const Maps = () => {
-  const {selectedPlace, directions, places} = usePlaner()
+  const {selectedPlace, places} = usePlaner()
 
-  const {directionsRequest, directionsRequestCallback} = useDirections()
-  const [bounds, setBounds] = useState()
-  // new window.google.maps.LatLngBounds().toJSON(),
+  const [center, setCenter] = useState<google.maps.LatLngLiteral>(
+    places[0]?.geo || CENTER_FLORIPA,
+  )
 
-  const [map, setMap] = useState<google.maps.Map>()
-  const onLoad = React.useCallback((mapLoad: google.maps.Map) => {
-    // mapLoad.fitBounds(bounds)
+  const [, setMap] = useState<google.maps.Map>()
 
-    // mapLoad.addListener('bounds_changed', () => {
-    //   setBounds(mapLoad.getBounds() as any)
-    //   console.log(mapLoad.getBounds())
-    // })
-    // mapLoad.addListener('zoom_changed', () => {
-    //   setZoom(mapLoad.getZoom())
-    // })
+  const onLoad = useCallback((mapLoad: google.maps.Map) => {
+    mapLoad.setZoom(10)
     setMap(mapLoad)
   }, [])
 
-  const onBoundsChanged = useCallback(() => {
-    // const b = map?.getBounds()
-    // if (b) setBounds(b.toJSON)
-  }, [])
-
   useEffect(() => {
-    if (map && selectedPlace) {
-      const b = new window.google.maps.LatLngBounds()
+    if (selectedPlace) setCenter(selectedPlace.geo)
+    else setCenter(CENTER_FLORIPA)
 
-      map.fitBounds(b.extend(selectedPlace?.geo))
-    }
-  }, [selectedPlace?.geo.lat, map])
+    // change center only if the selected place change
+    // it avoid any other change into selected place object, eg. order or route
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPlace?.geo])
 
   return (
     <GoogleMap
-      mapContainerStyle={containerStyle}
       onLoad={onLoad}
-      mapContainerClassName="h-full w-full "
-      onBoundsChanged={onBoundsChanged}
+      mapContainerClassName="h-full w-full"
+      center={center}
     >
       {places.map((place, index) => (
         <Marker
           position={place.geo}
-          key={place.place_id}
+          key={place.uid}
           label={{
             text: String.fromCharCode(65 + index),
             className: cn(
@@ -67,24 +50,9 @@ export const Maps = () => {
             ),
             color: 'currentColor',
           }}
-          zIndex={99}
         />
       ))}
-      {directionsRequest && (
-        <DirectionsService
-          options={directionsRequest}
-          callback={directionsRequestCallback}
-        />
-      )}
-      {directions && (
-        <DirectionsRenderer
-          options={{
-            directions,
-            suppressMarkers: true,
-          }}
-        />
-      )}
-
+      <Directions />
       <></>
     </GoogleMap>
   )

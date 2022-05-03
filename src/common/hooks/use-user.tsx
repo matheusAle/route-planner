@@ -33,7 +33,7 @@ export const UserContextProvider = ({children}: PropsWithChildren<any>) => {
       setUser(data)
       setLoadingUser(false)
     })
-  }, [])
+  }, [navigate])
 
   return (
     <userContext.Provider value={{user, isLoadingUser}}>
