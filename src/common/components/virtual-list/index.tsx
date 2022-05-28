@@ -11,7 +11,8 @@ import {
 import 'react-virtualized/styles.css'
 import {getPositionForIndex} from './helpers'
 
-export interface ListRowProps<T> {
+export interface ListRowProps<T>
+  extends Pick<DraggableProvided, 'dragHandleProps'> {
   item: T
   isDragging: boolean
   index: number
@@ -56,16 +57,12 @@ export const VirtualList = <T,>({
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    style={{
-                      ...provided.draggableProps.style,
-                      ...((provided.dragHandleProps as any)?.style || {}),
-                    }}
                     className="flex py-2"
                   >
                     <ItemRender
                       item={item}
                       isDragging={snapshot.isDragging}
+                      dragHandleProps={provided.dragHandleProps}
                       index={index}
                     />
                   </div>

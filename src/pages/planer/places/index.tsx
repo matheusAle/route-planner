@@ -1,9 +1,10 @@
-import {VirtualList} from 'common/components/virtual-list'
+import {ListRowProps, VirtualList} from 'common/components/virtual-list'
 import {PlaceCard} from '../common/place-card'
 import {usePlaner} from '../hooks/use-planer'
 import {useUpdatePlace} from '../hooks/use-update-place'
 import {ReactComponent as DestinationIlistration} from 'assets/img/destinations.svg'
 import {Search} from '../common/search'
+import {Place} from 'common/types/place'
 
 export const Places = () => {
   const {selectPlace, places} = usePlaner()
@@ -20,12 +21,12 @@ export const Places = () => {
           sorted={(item, order) => {
             updatePlace({...item, order})
           }}
-          itemRender={({item, index}) => (
+          itemRender={(props: ListRowProps<Place>) => (
             <PlaceCard
-              place={item}
-              mark={String.fromCharCode(65 + index)}
-              key={item.uid}
-              onClick={() => selectPlace(item)}
+              {...props}
+              key={props.item.uid}
+              onClick={() => selectPlace(props.item)}
+              mark={String.fromCharCode(65 + props.index)}
             />
           )}
         />

@@ -22,6 +22,9 @@ module.exports = {
       gridTemplateRows: {
         shell: '500px 300px',
       },
+      fontSize: {
+        '3xs': ['.5rem', '.75rem'] 
+      }
     },
   },
   variants: {
