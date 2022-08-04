@@ -21,7 +21,7 @@ const userContext = createContext<UserContext>({
 })
 
 export const UserContextProvider = ({children}: PropsWithChildren<any>) => {
-  const [user, setUser] = useState<User>(null as unknown as User)
+  const [user, setUser] = useState<User>({} as User)
   const [isLoadingUser, setLoadingUser] = useState(true)
   const navigate = useNavigate()
 
@@ -33,7 +33,8 @@ export const UserContextProvider = ({children}: PropsWithChildren<any>) => {
       setUser(data)
       setLoadingUser(false)
     })
-  }, [navigate])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <userContext.Provider value={{user, isLoadingUser}}>
