@@ -25,7 +25,23 @@ const TimelineInner = () => {
   } = useTimelimeContext()
   const onSliderChange = useOnSliderChange(points)
 
-  if (!points.length) return <></>
+  if (!domainMax || !domainMin)
+    return (
+      <div className="flex items-center justify-center h-full flex-col">
+        <div className="alert alert-warning">
+          Set the travel date to see the timeline
+        </div>
+      </div>
+    )
+
+  if (!points.length)
+    return (
+      <div className="flex items-center justify-center h-full flex-col">
+        <div className="alert alert-warning">
+          add places to path to see the timeline
+        </div>
+      </div>
+    )
 
   return (
     <div className="overflow-auto h-full flex flex-col px-6">
