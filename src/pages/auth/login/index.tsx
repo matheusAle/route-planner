@@ -4,6 +4,8 @@ import {
   SubmitAction,
   TextInput,
 } from 'common/components/form'
+import {getMessage} from 'common/firebase/error'
+import {errorNotification} from 'common/notification'
 import {REGISTER_URL, TRAVELS_URL} from 'common/routes-urls'
 import {Link, useNavigate} from 'react-router-dom'
 import {useLogin} from './use-login'
@@ -13,8 +15,12 @@ export const LoginPage = () => {
   const login = useLogin()
   const navigate = useNavigate()
   const onSubmit: HandleSubmit<Login> = async ({email, password}) => {
-    await login(email, password)
-    navigate(TRAVELS_URL, {replace: true})
+    try {
+      await login(email, password)
+      navigate(TRAVELS_URL, {replace: true})
+    } catch (err) {
+      errorNotification(getMessage(err))
+    }
   }
 
   return (
